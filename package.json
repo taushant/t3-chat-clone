@@ -1,0 +1,55 @@
+{
+  "name": "t3-chat-clone",
+  "version": "1.0.0",
+  "description": "ls # T3 Chat Clone — README",
+  "main": "index.js",
+  "scripts": {
+    "dev": "pnpm run --parallel dev",
+    "build": "echo 'Add per-package build scripts'",
+    "test": "echo 'Add tests later' && exit 0",
+    "lint": "eslint . --ext .ts,.tsx --max-warnings=0",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "clean": "git clean -fdX",
+    "prepare": "husky",
+    "security:audit": "npm audit || true",
+    "security:monitor": "snyk monitor || true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taushant/t3-chat-clone.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@snyk/protect": "^1.1298.3",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "14.2.6",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.5",
+    "prettier": "^3.6.2",
+    "typescript": "^5.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/taushant/t3-chat-clone/issues"
+  },
+  "homepage": "https://github.com/taushant/t3-chat-clone#readme",
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  }
+}
