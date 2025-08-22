@@ -1,8 +1,8 @@
-ls # T3 Chat Clone — README
+# T3 Chat Clone — README
 
 ## 🚀 Purpose
 
-This repository is our attempt to build a **T3 Chat clone** as part of the [T3 Chat Cloneathon](https://cloneathon.t3.chat/) challenge. The project is not just about replicating functionality — it’s also about learning and applying a **modern JS-first SaaS tech stack** that can scale for real-world use.
+This repository is our attempt to build a **T3 Chat clone** as part of the [T3 Chat Cloneathon](https://cloneathon.t3.chat/) challenge. The project is not just about replicating functionality — it's also about learning and applying a **modern JS-first SaaS tech stack** that can scale for real-world use.
 
 We aim to:
 
@@ -104,15 +104,59 @@ pnpm install
 ### Running Locally
 
 ```bash
-# Start the backend API
-pnpm --filter api dev
+# Start the backend API (recommended for development)
+pnpm dev:api
+
+# Alternative: Start with direct TypeScript execution
+cd apps/api && pnpm dev:ts
 
 # Start the frontend web app
-pnpm --filter web dev
+pnpm dev:web
 
 # Start workers (attachment pipeline)
 pnpm --filter attachment-worker dev
 ```
+
+---
+
+## 📊 Development Progress
+
+### ✅ Completed (Week 1)
+
+- **Project Foundation**: Monorepo setup with pnpm workspaces
+- **Backend Core**: NestJS application with proper TypeScript configuration
+- **Security Foundation**: CORS, Helmet, rate limiting, input validation
+- **Health Checks**: Comprehensive health monitoring endpoints
+- **API Documentation**: Swagger/OpenAPI setup
+- **Environment Management**: Secure configuration handling
+
+### 🔄 In Progress (Week 2)
+
+- **Database Setup**: PostgreSQL with Prisma ORM
+- **Authentication System**: JWT-based auth with OAuth support
+- **User Management**: Registration, login, and profile endpoints
+
+### 📋 Upcoming
+
+- **Real-time Communication**: WebSocket implementation
+- **LLM Integration**: Provider adapters and streaming responses
+- **Frontend Development**: Next.js application with chat interface
+- **File Processing**: Upload, OCR, and vector embeddings
+
+---
+
+## 🐛 Known Issues & Solutions
+
+### NestJS Build Issues (Resolved ✅)
+
+**Problem**: TypeScript compilation conflicts prevented the app from starting
+**Solution**:
+
+- Fixed module resolution conflicts in `tsconfig.json`
+- Added `dev:ts` script for direct TypeScript execution
+- Resolved missing `@nestjs/axios` dependency
+
+**Current Status**: Application runs successfully on port 3001
 
 ---
 

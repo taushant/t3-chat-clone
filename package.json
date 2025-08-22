@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "pnpm run --parallel dev",
-    "build": "echo 'Add per-package build scripts'",
-    "test": "echo 'Add tests later' && exit 0",
+    "dev:api": "pnpm --filter api start:dev",
+    "dev:web": "pnpm --filter web dev",
+    "build": "pnpm run --recursive build",
+    "test": "pnpm run --recursive test",
     "lint": "eslint . --ext .ts,.tsx --max-warnings=0",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "clean": "git clean -fdX",
