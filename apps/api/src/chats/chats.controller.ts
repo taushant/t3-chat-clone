@@ -157,8 +157,8 @@ export class ChatsController {
         status: HttpStatus.UNAUTHORIZED,
         description: 'User not authenticated',
     })
-    async findAll(@Query() query: ChatQueryDto, @Request() req: AuthenticatedRequest) {
-        return await this.chatsService.findAll(query, req.user.id);
+    async findAll(@Query() query: ChatQueryDto) {
+        return await this.chatsService.findAll(query);
     }
 
     @Get('my')

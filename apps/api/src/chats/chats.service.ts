@@ -96,7 +96,7 @@ export class ChatsService {
     /**
      * Get all chats with filtering and pagination
      */
-    async findAll(query: ChatQueryDto, userId: string) {
+    async findAll(query: ChatQueryDto) {
         const { page = 1, limit = 20, search, isPublic, participantId, sortBy = ChatSortBy.CREATED_AT, sortOrder = SortOrder.DESC } = query;
         const skip = (page - 1) * limit;
 
