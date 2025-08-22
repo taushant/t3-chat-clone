@@ -5,6 +5,9 @@ import { TerminusModule } from "@nestjs/terminus";
 import { AppController } from "./app.controller";
 import { HealthController } from "./health/health.controller";
 import { ConfigService } from "./config/config.service";
+import { DatabaseModule } from './database/database.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -14,6 +17,15 @@ import { ConfigService } from "./config/config.service";
       envFilePath: [".env.local", ".env"],
       cache: true,
     }),
+
+    // Database module
+    DatabaseModule,
+
+    // Authentication module
+    AuthModule,
+
+    // Users module
+    UsersModule,
 
     // Rate limiting module
     ThrottlerModule.forRoot([
@@ -33,4 +45,4 @@ import { ConfigService } from "./config/config.service";
   controllers: [AppController, HealthController],
   providers: [ConfigService],
 })
-export class AppModule {}
+export class AppModule { }
