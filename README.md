@@ -138,10 +138,19 @@ pnpm --filter attachment-worker dev
 - **Security Implementation**: Role-based access control, account lockouts, audit logging
 - **Enhanced User Management**: Password reset, profile updates, user search with filtering
 
+### ✅ Completed (Week 3)
+
+- **Chat Management System**: Complete CRUD operations for chats with role-based permissions
+- **Message System**: Full messaging functionality with chat-based access control
+- **Participant Management**: Add, remove, and update participant roles in chats
+- **Advanced Features**: Filtering, pagination, search across chats and messages
+- **Comprehensive Testing**: Unit tests (33+ test cases) and integration tests for all endpoints
+- **API Security**: Input validation, access control, and error handling
+- **Documentation**: OpenAPI/Swagger documentation for all endpoints
+
 ### 🔄 In Progress
 
-- **Core API Endpoints**: Chat functionality and messaging system
-- **Real-time Communication**: WebSocket implementation
+- **Real-time Communication**: WebSocket implementation for live chat updates
 - **Frontend Development**: Next.js application with chat interface
 
 ### 📋 Upcoming
@@ -170,6 +179,7 @@ pnpm --filter attachment-worker dev
 ## 🔐 Current API Endpoints
 
 ### Authentication & User Management
+
 - `POST /api/v1/auth/register` - User registration
 - `POST /api/v1/auth/login` - User login
 - `POST /api/v1/auth/forgot-password` - Request password reset
@@ -177,16 +187,46 @@ pnpm --filter attachment-worker dev
 - `POST /api/v1/auth/validate-reset-token` - Validate reset token
 
 ### User Profile Management
+
 - `GET /api/v1/users/profile` - Get current user profile
 - `PUT /api/v1/users/profile` - Update user profile
 - `PUT /api/v1/users/change-password` - Change password
 
 ### User Administration (Role-Based)
+
 - `GET /api/v1/users/search` - **Admin/Moderator** - Search and filter users
 - `GET /api/v1/users/admin/users` - **Admin only** - Get all users
 - `GET /api/v1/users/moderator/active-users` - **Admin/Moderator** - Get active users
 
+### Chat Management (NEW ✨)
+
+- `POST /api/v1/chats` - Create a new chat
+- `GET /api/v1/chats` - Get all accessible chats with filtering and pagination
+- `GET /api/v1/chats/my` - Get user's chats
+- `GET /api/v1/chats/public` - Get public chats
+- `GET /api/v1/chats/:id` - Get specific chat details
+- `PATCH /api/v1/chats/:id` - Update chat (Owner/Admin only)
+- `DELETE /api/v1/chats/:id` - Delete chat (Owner only)
+
+### Participant Management (NEW ✨)
+
+- `POST /api/v1/chats/:id/participants` - Add participant to chat
+- `PATCH /api/v1/chats/:id/participants/:participantId/role` - Update participant role
+- `DELETE /api/v1/chats/:id/participants/:participantId` - Remove participant
+
+### Message Management (NEW ✨)
+
+- `POST /api/v1/messages` - Create a new message
+- `GET /api/v1/messages` - Get all accessible messages with filtering
+- `GET /api/v1/messages/my` - Get user's messages
+- `GET /api/v1/messages/search` - Search messages across accessible chats
+- `GET /api/v1/messages/chat/:chatId` - Get messages for specific chat
+- `GET /api/v1/messages/:id` - Get specific message details
+- `PATCH /api/v1/messages/:id` - Update message (Author/Admin only)
+- `DELETE /api/v1/messages/:id` - Delete message (Author/Admin only)
+
 ### Public Endpoints
+
 - `GET /api/v1/users/public/stats` - Public user statistics
 - `GET /api/v1/health` - Health checks
 
@@ -195,10 +235,12 @@ pnpm --filter attachment-worker dev
 ## 🚀 Current Status
 
 **Week 1**: ✅ **COMPLETED** - All foundation tasks completed successfully
-**Week 2**: ✅ **COMPLETED** - Database setup, authentication, and enhanced user management
-**Next Milestone**: Week 3 - Core API endpoints and chat functionality
+**Week 2**: ✅ **COMPLETED** - Database setup, authentication, and enhanced user management  
+**Week 3**: ✅ **COMPLETED** - Core API endpoints, chat & message management, comprehensive testing
+**Next Milestone**: Week 4 - WebSocket implementation for real-time chat communication
 
 ### Security Features Implemented
+
 - ✅ **JWT Authentication** with proper token validation
 - ✅ **Role-Based Access Control** with granular permissions
 - ✅ **Account Lockout** after multiple failed attempts
