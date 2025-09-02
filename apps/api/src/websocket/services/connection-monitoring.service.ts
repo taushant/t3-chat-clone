@@ -1,6 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { Server } from 'socket.io';
-import { AuthenticatedSocket } from '../websocket.gateway';
+import { Injectable, Logger } from "@nestjs/common";
 
 interface ConnectionMetrics {
   totalConnections: number;
@@ -13,7 +11,7 @@ interface ConnectionMetrics {
 }
 
 interface ConnectionEvent {
-  type: 'connect' | 'disconnect' | 'error' | 'rate_limit' | 'auth_failure';
+  type: "connect" | "disconnect" | "error" | "rate_limit" | "auth_failure";
   socketId: string;
   userId?: string;
   ipAddress: string;
@@ -42,7 +40,7 @@ export class ConnectionMonitoringService {
    * Record connection event
    */
   recordConnectionEvent(
-    type: ConnectionEvent['type'],
+    type: ConnectionEvent["type"],
     socketId: string,
     ipAddress: string,
     userAgent?: string,
@@ -69,7 +67,9 @@ export class ConnectionMonitoringService {
     // Update metrics based on event type
     this.updateMetrics(event);
 
-    this.logger.debug(`Recorded connection event: ${type} for socket ${socketId}`);
+    this.logger.debug(
+      `Recorded connection event: ${type} for socket ${socketId}`,
+    );
   }
 
   /**
@@ -79,10 +79,14 @@ export class ConnectionMonitoringService {
     this.connectionStartTimes.set(socketId, new Date());
     this.connectionMetrics.totalConnections++;
     this.connectionMetrics.activeConnections++;
-    
+
     // Update peak connections
-    if (this.connectionMetrics.activeConnections > this.connectionMetrics.peakConnections) {
-      this.connectionMetrics.peakConnections = this.connectionMetrics.activeConnections;
+    if (
+      this.connectionMetrics.activeConnections >
+      this.connectionMetrics.peakConnections
+    ) {
+      this.connectionMetrics.peakConnections =
+        this.connectionMetrics.activeConnections;
     }
 
     this.logger.debug(`Recorded connection start for socket ${socketId}`);
@@ -97,12 +101,15 @@ export class ConnectionMonitoringService {
       const duration = Date.now() - startTime.getTime();
       this.connectionDurations.push(duration);
       this.connectionStartTimes.delete(socketId);
-      
+
       // Update average connection duration
       this.updateAverageConnectionDuration();
     }
 
-    this.connectionMetrics.activeConnections = Math.max(0, this.connectionMetrics.activeConnections - 1);
+    this.connectionMetrics.activeConnections = Math.max(
+      0,
+      this.connectionMetrics.activeConnections - 1,
+    );
     this.logger.debug(`Recorded connection end for socket ${socketId}`);
   }
 
@@ -123,27 +130,36 @@ export class ConnectionMonitoringService {
   /**
    * Get connection events by type
    */
-  getConnectionEventsByType(type: ConnectionEvent['type'], limit: number = 100): ConnectionEvent[] {
+  getConnectionEventsByType(
+    type: ConnectionEvent["type"],
+    limit: number = 100,
+  ): ConnectionEvent[] {
     return this.connectionEvents
-      .filter(event => event.type === type)
+      .filter((event) => event.type === type)
       .slice(-limit);
   }
 
   /**
    * Get connection events by user
    */
-  getConnectionEventsByUser(userId: string, limit: number = 100): ConnectionEvent[] {
+  getConnectionEventsByUser(
+    userId: string,
+    limit: number = 100,
+  ): ConnectionEvent[] {
     return this.connectionEvents
-      .filter(event => event.userId === userId)
+      .filter((event) => event.userId === userId)
       .slice(-limit);
   }
 
   /**
    * Get connection events by IP
    */
-  getConnectionEventsByIP(ipAddress: string, limit: number = 100): ConnectionEvent[] {
+  getConnectionEventsByIP(
+    ipAddress: string,
+    limit: number = 100,
+  ): ConnectionEvent[] {
     return this.connectionEvents
-      .filter(event => event.ipAddress === ipAddress)
+      .filter((event) => event.ipAddress === ipAddress)
       .slice(-limit);
   }
 
@@ -175,34 +191,39 @@ export class ConnectionMonitoringService {
    * Get health status
    */
   getHealthStatus(): {
-    status: 'healthy' | 'warning' | 'critical';
+    status: "healthy" | "warning" | "critical";
     issues: string[];
     recommendations: string[];
   } {
     const issues: string[] = [];
     const recommendations: string[] = [];
-    let status: 'healthy' | 'warning' | 'critical' = 'healthy';
+    let status: "healthy" | "warning" | "critical" = "healthy";
 
     // Check error rate
     const errorRate = this.calculateErrorRate();
-    if (errorRate > 0.1) { // 10% error rate
+    if (errorRate > 0.1) {
+      // 10% error rate
       issues.push(`High error rate: ${(errorRate * 100).toFixed(1)}%`);
-      recommendations.push('Investigate connection failures and rate limiting');
-      status = 'warning';
+      recommendations.push("Investigate connection failures and rate limiting");
+      status = "warning";
     }
 
     // Check peak connections
     if (this.connectionMetrics.peakConnections > 1000) {
-      issues.push(`High peak connections: ${this.connectionMetrics.peakConnections}`);
-      recommendations.push('Consider scaling or connection pooling');
-      status = status === 'healthy' ? 'warning' : 'critical';
+      issues.push(
+        `High peak connections: ${this.connectionMetrics.peakConnections}`,
+      );
+      recommendations.push("Consider scaling or connection pooling");
+      status = status === "healthy" ? "warning" : "critical";
     }
 
     // Check failed connections
     if (this.connectionMetrics.failedConnections > 100) {
-      issues.push(`High failed connections: ${this.connectionMetrics.failedConnections}`);
-      recommendations.push('Review authentication and rate limiting settings');
-      status = status === 'healthy' ? 'warning' : 'critical';
+      issues.push(
+        `High failed connections: ${this.connectionMetrics.failedConnections}`,
+      );
+      recommendations.push("Review authentication and rate limiting settings");
+      status = status === "healthy" ? "warning" : "critical";
     }
 
     return {
@@ -218,13 +239,14 @@ export class ConnectionMonitoringService {
   resetMetrics(): void {
     this.connectionMetrics.totalConnections = 0;
     this.connectionMetrics.failedConnections = 0;
-    this.connectionMetrics.peakConnections = this.connectionMetrics.activeConnections;
+    this.connectionMetrics.peakConnections =
+      this.connectionMetrics.activeConnections;
     this.connectionMetrics.connectionsPerMinute = 0;
     this.connectionMetrics.lastReset = new Date();
     this.connectionEvents.length = 0;
     this.connectionDurations.length = 0;
 
-    this.logger.log('Connection metrics reset');
+    this.logger.log("Connection metrics reset");
   }
 
   /**
@@ -237,15 +259,23 @@ export class ConnectionMonitoringService {
     // Remove old events
     const cutoffTime = new Date(now.getTime() - maxAge);
     const initialLength = this.connectionEvents.length;
-    this.connectionEvents.splice(0, this.connectionEvents.findIndex(event => event.timestamp > cutoffTime));
+    this.connectionEvents.splice(
+      0,
+      this.connectionEvents.findIndex((event) => event.timestamp > cutoffTime),
+    );
 
     if (this.connectionEvents.length < initialLength) {
-      this.logger.log(`Cleaned up ${initialLength - this.connectionEvents.length} old connection events`);
+      this.logger.log(
+        `Cleaned up ${initialLength - this.connectionEvents.length} old connection events`,
+      );
     }
 
     // Remove old connection durations (keep last 1000)
     if (this.connectionDurations.length > 1000) {
-      this.connectionDurations.splice(0, this.connectionDurations.length - 1000);
+      this.connectionDurations.splice(
+        0,
+        this.connectionDurations.length - 1000,
+      );
     }
   }
 
@@ -254,15 +284,18 @@ export class ConnectionMonitoringService {
    */
   private updateMetrics(event: ConnectionEvent): void {
     switch (event.type) {
-      case 'connect':
+      case "connect":
         this.connectionMetrics.activeConnections++;
         break;
-      case 'disconnect':
-        this.connectionMetrics.activeConnections = Math.max(0, this.connectionMetrics.activeConnections - 1);
+      case "disconnect":
+        this.connectionMetrics.activeConnections = Math.max(
+          0,
+          this.connectionMetrics.activeConnections - 1,
+        );
         break;
-      case 'error':
-      case 'rate_limit':
-      case 'auth_failure':
+      case "error":
+      case "rate_limit":
+      case "auth_failure":
         this.connectionMetrics.failedConnections++;
         break;
     }
@@ -271,13 +304,14 @@ export class ConnectionMonitoringService {
   private updateAverageConnectionDuration(): void {
     if (this.connectionDurations.length > 0) {
       const sum = this.connectionDurations.reduce((a, b) => a + b, 0);
-      this.connectionMetrics.averageConnectionDuration = sum / this.connectionDurations.length;
+      this.connectionMetrics.averageConnectionDuration =
+        sum / this.connectionDurations.length;
     }
   }
 
   private getTopIPs(): Array<{ ip: string; count: number }> {
     const ipCounts = new Map<string, number>();
-    
+
     for (const event of this.connectionEvents) {
       ipCounts.set(event.ipAddress, (ipCounts.get(event.ipAddress) || 0) + 1);
     }
@@ -290,10 +324,13 @@ export class ConnectionMonitoringService {
 
   private getTopUserAgents(): Array<{ userAgent: string; count: number }> {
     const userAgentCounts = new Map<string, number>();
-    
+
     for (const event of this.connectionEvents) {
       if (event.userAgent) {
-        userAgentCounts.set(event.userAgent, (userAgentCounts.get(event.userAgent) || 0) + 1);
+        userAgentCounts.set(
+          event.userAgent,
+          (userAgentCounts.get(event.userAgent) || 0) + 1,
+        );
       }
     }
 
@@ -308,8 +345,11 @@ export class ConnectionMonitoringService {
       return 0;
     }
 
-    const errorEvents = this.connectionEvents.filter(event => 
-      event.type === 'error' || event.type === 'rate_limit' || event.type === 'auth_failure'
+    const errorEvents = this.connectionEvents.filter(
+      (event) =>
+        event.type === "error" ||
+        event.type === "rate_limit" ||
+        event.type === "auth_failure",
     );
 
     return errorEvents.length / this.connectionEvents.length;
