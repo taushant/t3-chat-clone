@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ChatsModule } from './chats/chats.module';
 import { MessagesModule } from './messages/messages.module';
+import { WebsocketModule } from './websocket/websocket.module';
 
 @Module({
   imports: [
@@ -34,6 +35,9 @@ import { MessagesModule } from './messages/messages.module';
 
     // Messages module
     MessagesModule,
+
+    // WebSocket module
+    WebsocketModule,
 
     // Rate limiting module
     ThrottlerModule.forRoot([

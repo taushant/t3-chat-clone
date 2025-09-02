@@ -23,6 +23,7 @@ import {
     ApiQuery,
     ApiBody,
 } from '@nestjs/swagger';
+import { UserRole } from '@prisma/client';
 
 interface AuthenticatedRequest extends ExpressRequest {
     user: {
@@ -455,6 +456,6 @@ export class ChatsController {
     async getPublicChats(@Query() query: ChatQueryDto) {
         // Override isPublic to true for this endpoint
         const publicQuery = { ...query, isPublic: true };
-        return await this.chatsService.findAll(publicQuery, 'public');
+        return await this.chatsService.findAll(publicQuery);
     }
 }
