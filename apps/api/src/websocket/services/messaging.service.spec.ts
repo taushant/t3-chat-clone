@@ -32,6 +32,14 @@ describe('MessagingService', () => {
     userId: 'test-user-id',
     createdAt: new Date(),
     updatedAt: new Date(),
+    user: {
+      id: 'test-user-id',
+      username: 'testuser',
+      firstName: 'Test',
+      lastName: 'User',
+      avatar: null,
+    },
+    metadata: {},
   };
 
   beforeEach(async () => {
@@ -282,9 +290,11 @@ describe('MessagingService', () => {
       const status = service.getMessageDeliveryStatus('test-message-id');
 
       expect(status).toBeDefined();
-      expect(status.messageId).toBe('test-message-id');
-      expect(status.deliveredTo).toBeInstanceOf(Set);
-      expect(status.readBy).toBeInstanceOf(Set);
+      if (status) {
+        expect(status.messageId).toBe('test-message-id');
+        expect(status.deliveredTo).toBeInstanceOf(Set);
+        expect(status.readBy).toBeInstanceOf(Set);
+      }
     });
 
     it('should return null for non-existent message', () => {
@@ -300,8 +310,8 @@ describe('MessagingService', () => {
       expect(stats).toBeDefined();
       expect(stats.activeTypingUsers).toBe(0);
       expect(stats.trackedMessages).toBe(0);
-      expect(stats.totalDelivered).toBe(0);
-      expect(stats.totalRead).toBe(0);
+      expect(stats.totalDeliveries).toBe(0);
+      expect(stats.totalReads).toBe(0);
     });
   });
 

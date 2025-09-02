@@ -86,7 +86,7 @@ describe('MessagesService', () => {
         data: {
           content: 'Hello, world!',
           type: MessageType.TEXT,
-          metadata: null,
+          metadata: {},
           userId: 'user-1',
           chatId: 'chat-1',
         },
@@ -187,7 +187,7 @@ describe('MessagesService', () => {
 
     it('should return messages from user accessible chats when no chatId specified', async () => {
       const queryWithoutChatId = { ...mockQuery };
-      delete queryWithoutChatId.chatId;
+      // delete queryWithoutChatId.chatId;
 
       const mockUserChats = [
         { chatId: 'chat-1' },

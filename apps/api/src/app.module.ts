@@ -11,6 +11,7 @@ import { UsersModule } from './users/users.module';
 import { ChatsModule } from './chats/chats.module';
 import { MessagesModule } from './messages/messages.module';
 import { WebsocketModule } from './websocket/websocket.module';
+import { LLMModule } from './llm/llm.module';
 
 @Module({
   imports: [
@@ -38,6 +39,9 @@ import { WebsocketModule } from './websocket/websocket.module';
 
     // WebSocket module
     WebsocketModule,
+
+    // LLM module
+    LLMModule,
 
     // Rate limiting module
     ThrottlerModule.forRoot([

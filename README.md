@@ -263,6 +263,55 @@ pnpm --filter attachment-worker dev
 
 **Documentation**: See [`docs/websocket-api.md`](docs/websocket-api.md) for complete WebSocket API documentation.
 
+### LLM Integration Endpoints (NEW ✨)
+
+**Large Language Model Integration:**
+
+- **Chat Completion**: `POST /api/v1/llm/chat/completion` - Non-streaming completion
+- **Streaming Completion**: `POST /api/v1/llm/chat/completion/stream` - Real-time streaming
+- **Enhanced Streaming**: `POST /api/v1/llm/stream/completion/optimized` - Optimized SSE streaming
+- **API Key Management**: `POST /api/v1/llm/api-keys` - Create, validate, and manage API keys
+- **Provider Information**: `GET /api/v1/llm/api-keys/providers` - Available providers and models
+
+**Supported Providers:**
+
+- **OpenAI**: GPT-3.5-turbo, GPT-4, GPT-4-turbo with full streaming support
+- **Anthropic**: Claude-3-sonnet, Claude-3-haiku, Claude-3-opus with message conversion
+- **OpenRouter**: Access to 100+ models from various providers with unified API
+
+**LLM Features:**
+
+- Multi-provider support with automatic provider detection
+- Real-time streaming responses via Server-Sent Events and WebSockets
+- Comprehensive rate limiting and usage tracking
+- Secure API key management and validation
+- Advanced error handling and retry logic
+- Provider health monitoring and failover
+
+**Documentation**: See [`docs/llm-integration-guide.md`](docs/llm-integration-guide.md) for complete LLM API documentation.
+
+### Streaming & Response Processing Endpoints (NEW ✨)
+
+**Enhanced Streaming & Processing:**
+
+- **WebSocket Streaming**: `WebSocket /llm` - Real-time WebSocket streaming gateway
+- **Markdown Processing**: `POST /api/v1/llm/markdown/parse` - Parse and render markdown
+- **Code Block Processing**: `POST /api/v1/llm/markdown/code-block/process` - Process code blocks with syntax highlighting
+- **Content Moderation**: `POST /api/v1/llm/moderation/moderate` - Real-time content moderation
+- **Content Filtering**: `POST /api/v1/llm/moderation/filter` - Advanced content filtering
+- **Response Processing**: `POST /api/v1/llm/response/process` - End-to-end response processing pipeline
+
+**Streaming & Processing Features:**
+
+- Enhanced SSE streaming with connection management
+- WebSocket streaming for real-time LLM responses
+- Advanced markdown processing with syntax highlighting
+- Real-time content moderation and filtering
+- Response processing pipeline with enhancement and caching
+- Comprehensive testing and monitoring
+
+**Documentation**: See [`docs/week6-streaming-response-guide.md`](docs/week6-streaming-response-guide.md) for complete streaming and processing API documentation.
+
 ---
 
 ## 🚀 Current Status
@@ -271,7 +320,9 @@ pnpm --filter attachment-worker dev
 **Week 2**: ✅ **COMPLETED** - Database setup, authentication, and enhanced user management  
 **Week 3**: ✅ **COMPLETED** - Core API endpoints, chat & message management, comprehensive testing
 **Week 4**: ✅ **COMPLETED** - WebSocket implementation with real-time communication, presence management, and monitoring
-**Next Milestone**: Week 5 - LLM provider integration and streaming responses
+**Week 5**: ✅ **COMPLETED** - LLM provider integration with multi-provider support, streaming, and rate limiting
+**Week 6**: ✅ **COMPLETED** - Streaming & Response Processing with enhanced SSE, WebSocket streaming, markdown processing, content moderation, and response pipeline
+**Next Milestone**: Week 7 - Frontend Integration & UI/UX
 
 ### Security Features Implemented
 

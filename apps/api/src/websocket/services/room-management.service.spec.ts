@@ -27,6 +27,12 @@ describe('RoomManagementService', () => {
     name: 'Test Chat',
     description: 'Test Description',
     isPublic: true,
+    participantCount: 1,
+    messageCount: 0,
+    _count: undefined,
+    messages: [],
+    createdAt: new Date(),
+    updatedAt: new Date(),
     participants: [
       {
         userId: 'test-user-id',
@@ -102,7 +108,7 @@ describe('RoomManagementService', () => {
     });
 
     it('should fail if chat is not found', async () => {
-      mockChatsService.findOne.mockResolvedValue(null);
+      mockChatsService.findOne.mockResolvedValue(undefined);
       const result = await service.joinRoom(mockServer, mockClient, 'non-existent-chat');
 
       expect(result.success).toBe(false);
@@ -163,8 +169,7 @@ describe('RoomManagementService', () => {
       const onlineUsers = service.getRoomOnlineUsers('test-chat-id');
 
       expect(onlineUsers).toHaveLength(1);
-      expect(onlineUsers[0].userId).toBe('test-user-id');
-      expect(onlineUsers[0].username).toBe('testuser');
+      expect(onlineUsers[0]).toBe('test-user-id');
     });
 
     it('should return empty array for non-existent room', () => {

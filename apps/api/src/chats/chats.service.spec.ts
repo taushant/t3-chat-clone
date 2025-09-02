@@ -164,7 +164,7 @@ describe('ChatsService', () => {
       mockPrismaService.chat.count.mockResolvedValue(1);
       mockPrismaService.chat.findMany.mockResolvedValue(mockChats);
 
-      const result = await service.findAll(mockQuery, 'user-1');
+      const result = await service.findAll(mockQuery);
 
       expect(result.data).toHaveLength(1);
       expect(result.pagination.total).toBe(1);

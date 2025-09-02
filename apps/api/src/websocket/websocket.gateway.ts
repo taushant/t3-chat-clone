@@ -387,7 +387,7 @@ export class WebsocketGateway
   async handleGetTypingUsers(
     @MessageBody() data: { chatId: string },
     @ConnectedSocket() client: AuthenticatedSocket,
-  ) {
+  ): Promise<any> {
     try {
       if (!client.user) {
         return { success: false, message: 'User not authenticated' };
@@ -407,7 +407,7 @@ export class WebsocketGateway
   async handleGetMessageDeliveryStatus(
     @MessageBody() data: { messageId: string },
     @ConnectedSocket() client: AuthenticatedSocket,
-  ) {
+  ): Promise<any> {
     try {
       if (!client.user) {
         return { success: false, message: 'User not authenticated' };
@@ -486,7 +486,7 @@ export class WebsocketGateway
   async handleGetUserStatus(
     @MessageBody() data: { userId: string },
     @ConnectedSocket() client: AuthenticatedSocket,
-  ) {
+  ): Promise<any> {
     try {
       if (!client.user) {
         return { success: false, message: 'User not authenticated' };
@@ -505,7 +505,7 @@ export class WebsocketGateway
   @SubscribeMessage('presence:stats')
   async handleGetPresenceStats(
     @ConnectedSocket() client: AuthenticatedSocket,
-  ) {
+  ): Promise<any> {
     try {
       if (!client.user) {
         return { success: false, message: 'User not authenticated' };
@@ -545,7 +545,7 @@ export class WebsocketGateway
   async handleRecoverConnection(
     @MessageBody() data: { recoveryToken: string },
     @ConnectedSocket() client: AuthenticatedSocket,
-  ) {
+  ): Promise<any> {
     try {
       if (!client.user) {
         return { success: false, message: 'User not authenticated' };
@@ -563,7 +563,7 @@ export class WebsocketGateway
   @SubscribeMessage('connection:session-info')
   async handleGetSessionInfo(
     @ConnectedSocket() client: AuthenticatedSocket,
-  ) {
+  ): Promise<any> {
     try {
       if (!client.user) {
         return { success: false, message: 'User not authenticated' };
@@ -602,7 +602,7 @@ export class WebsocketGateway
   @SubscribeMessage('monitoring:metrics')
   async handleGetConnectionMetrics(
     @ConnectedSocket() client: AuthenticatedSocket,
-  ) {
+  ): Promise<any> {
     try {
       if (!client.user) {
         return { success: false, message: 'User not authenticated' };
@@ -622,7 +622,7 @@ export class WebsocketGateway
   async handleGetConnectionEvents(
     @MessageBody() data: { limit?: number; type?: string; userId?: string; ip?: string },
     @ConnectedSocket() client: AuthenticatedSocket,
-  ) {
+  ): Promise<any> {
     try {
       if (!client.user) {
         return { success: false, message: 'User not authenticated' };
@@ -651,7 +651,7 @@ export class WebsocketGateway
   @SubscribeMessage('monitoring:stats')
   async handleGetMonitoringStats(
     @ConnectedSocket() client: AuthenticatedSocket,
-  ) {
+  ): Promise<any> {
     try {
       if (!client.user) {
         return { success: false, message: 'User not authenticated' };
