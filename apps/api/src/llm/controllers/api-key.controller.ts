@@ -17,7 +17,6 @@ import { AuthenticatedRequest } from '../../auth/interfaces/authenticated-reques
 import { ProviderRegistryService } from '../services/provider-registry.service';
 import { 
   CreateApiKeyDto,
-  UpdateApiKeyDto,
   ApiKeyResponseDto,
   ApiKeyListResponseDto,
   ValidateApiKeyDto,
