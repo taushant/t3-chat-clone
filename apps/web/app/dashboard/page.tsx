@@ -1,22 +1,28 @@
-'use client';
+"use client";
 
-import { useSession, signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-export default function DashboardPage() {
+export default function DashboardPage(): JSX.Element {
   const { data: session, status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/auth/login');
+    if (status === "unauthenticated") {
+      router.push("/auth/login");
     }
   }, [status, router]);
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -31,8 +37,8 @@ export default function DashboardPage() {
     return null;
   }
 
-  const handleSignOut = async () => {
-    await signOut({ callbackUrl: '/' });
+  const handleSignOut = async (): Promise<void> => {
+    await signOut({ callbackUrl: "/" });
   };
 
   return (
@@ -41,7 +47,9 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="text-xl font-semibold text-gray-900">T3 Chat Clone</h1>
+              <h1 className="text-xl font-semibold text-gray-900">
+                T3 Chat Clone
+              </h1>
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-700">
@@ -60,7 +68,8 @@ export default function DashboardPage() {
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Dashboard</h2>
             <p className="text-gray-600">
-              Welcome to your chat dashboard. Here you can manage your conversations and settings.
+              Welcome to your chat dashboard. Here you can manage your
+              conversations and settings.
             </p>
           </div>
 
@@ -68,18 +77,16 @@ export default function DashboardPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Recent Chats</CardTitle>
-                <CardDescription>
-                  Your recent conversations
-                </CardDescription>
+                <CardDescription>Your recent conversations</CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-gray-500">
                   No recent chats yet. Start a new conversation!
                 </p>
-                <Button 
-                  className="mt-4 w-full" 
+                <Button
+                  className="mt-4 w-full"
                   variant="outline"
-                  onClick={() => router.push('/chat')}
+                  onClick={() => router.push("/chat")}
                 >
                   Start New Chat
                 </Button>
@@ -89,9 +96,7 @@ export default function DashboardPage() {
             <Card>
               <CardHeader>
                 <CardTitle>AI Models</CardTitle>
-                <CardDescription>
-                  Available AI providers
-                </CardDescription>
+                <CardDescription>Available AI providers</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
@@ -114,15 +119,13 @@ export default function DashboardPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Quick Actions</CardTitle>
-                <CardDescription>
-                  Common tasks
-                </CardDescription>
+                <CardDescription>Common tasks</CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
-                <Button 
-                  className="w-full" 
+                <Button
+                  className="w-full"
                   variant="outline"
-                  onClick={() => router.push('/chat')}
+                  onClick={() => router.push("/chat")}
                 >
                   Create New Chat
                 </Button>
@@ -147,27 +150,33 @@ export default function DashboardPage() {
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <h4 className="font-medium mb-2">1. Start a Conversation</h4>
+                    <h4 className="font-medium mb-2">
+                      1. Start a Conversation
+                    </h4>
                     <p className="text-sm text-gray-600">
-                      Click "Start New Chat" to begin a conversation with AI or other users.
+                      Click &quot;Start New Chat&quot; to begin a conversation
+                      with AI or other users.
                     </p>
                   </div>
                   <div>
                     <h4 className="font-medium mb-2">2. Upload Files</h4>
                     <p className="text-sm text-gray-600">
-                      Share documents, images, and files to get AI-powered insights.
+                      Share documents, images, and files to get AI-powered
+                      insights.
                     </p>
                   </div>
                   <div>
                     <h4 className="font-medium mb-2">3. Real-time Chat</h4>
                     <p className="text-sm text-gray-600">
-                      Experience instant messaging with typing indicators and delivery confirmations.
+                      Experience instant messaging with typing indicators and
+                      delivery confirmations.
                     </p>
                   </div>
                   <div>
                     <h4 className="font-medium mb-2">4. AI Integration</h4>
                     <p className="text-sm text-gray-600">
-                      Chat with multiple AI providers and get streaming responses.
+                      Chat with multiple AI providers and get streaming
+                      responses.
                     </p>
                   </div>
                 </div>
