@@ -1,0 +1,19 @@
+{
+  "name": "@t3-chat/utils",
+  "version": "1.0.0",
+  "description": "Shared utilities for T3 Chat Clone",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.0.0"
+  }
+}
