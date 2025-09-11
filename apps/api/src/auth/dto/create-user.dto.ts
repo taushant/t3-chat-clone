@@ -7,7 +7,7 @@ export class CreateUserDto {
         example: 'user@example.com',
     })
     @IsEmail({}, { message: 'Please provide a valid email address' })
-    email: string;
+    email!: string;
 
     @ApiProperty({
         description: 'Username (3-20 characters, alphanumeric and underscore only)',
@@ -19,7 +19,7 @@ export class CreateUserDto {
     @Matches(/^[a-zA-Z0-9_]+$/, {
         message: 'Username can only contain letters, numbers, and underscores',
     })
-    username: string;
+    username!: string;
 
     @ApiProperty({
         description: 'Password (minimum 8 characters)',
@@ -30,7 +30,7 @@ export class CreateUserDto {
     @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/, {
         message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character',
     })
-    password: string;
+    password!: string;
 
     @ApiPropertyOptional({
         description: 'User first name',

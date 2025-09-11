@@ -12,8 +12,8 @@ import {
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { AuthenticatedRequest } from '../../auth/interfaces/authenticated-request.interface';
-import { PerformanceMonitorService } from '../services/performance-monitor.service';
-import { PerformanceOptimizerService } from '../services/performance-optimizer.service';
+import { PerformanceMonitorService, PerformanceStats, PerformanceMetrics } from '../services/performance-monitor.service';
+import { PerformanceOptimizerService, OptimizationResult } from '../services/performance-optimizer.service';
 
 @ApiTags('LLM Performance Monitoring')
 @Controller('llm/performance')
@@ -61,7 +61,7 @@ export class PerformanceMonitorController {
         timestamp: new Date(),
       };
     } catch (error) {
-      this.logger.error(`Failed to get performance stats: ${error.message}`);
+      this.logger.error(`Failed to get performance stats: ${error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error)}`);
       throw new HttpException(
         'Failed to retrieve performance statistics',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -94,7 +94,7 @@ export class PerformanceMonitorController {
         timestamp: new Date(),
       };
     } catch (error) {
-      this.logger.error(`Failed to get system health: ${error.message}`);
+      this.logger.error(`Failed to get system health: ${error instanceof Error ? error instanceof Error ? error.message : String(error) : String(error)}`);
       throw new HttpException(
         'Failed to retrieve system health',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -165,7 +165,7 @@ export class PerformanceMonitorController {
       if (error instanceof HttpException) {
         throw error;
       }
-      this.logger.error(`Failed to get metrics: ${error.message}`);
+      this.logger.error(`Failed to get metrics: ${error instanceof Error ? error.message : String(error)}`);
       throw new HttpException(
         'Failed to retrieve performance metrics',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -213,7 +213,7 @@ export class PerformanceMonitorController {
         timestamp: new Date(),
       };
     } catch (error) {
-      this.logger.error(`Failed to get endpoint metrics: ${error.message}`);
+      this.logger.error(`Failed to get endpoint metrics: ${error instanceof Error ? error.message : String(error)}`);
       throw new HttpException(
         'Failed to retrieve endpoint metrics',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -261,7 +261,7 @@ export class PerformanceMonitorController {
         timestamp: new Date(),
       };
     } catch (error) {
-      this.logger.error(`Failed to get user metrics: ${error.message}`);
+      this.logger.error(`Failed to get user metrics: ${error instanceof Error ? error.message : String(error)}`);
       throw new HttpException(
         'Failed to retrieve user metrics',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -309,7 +309,7 @@ export class PerformanceMonitorController {
         timestamp: new Date(),
       };
     } catch (error) {
-      this.logger.error(`Failed to get provider metrics: ${error.message}`);
+      this.logger.error(`Failed to get provider metrics: ${error instanceof Error ? error.message : String(error)}`);
       throw new HttpException(
         'Failed to retrieve provider metrics',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -346,7 +346,7 @@ export class PerformanceMonitorController {
         timestamp: new Date(),
       };
     } catch (error) {
-      this.logger.error(`Failed to run performance optimization: ${error.message}`);
+      this.logger.error(`Failed to run performance optimization: ${error instanceof Error ? error.message : String(error)}`);
       throw new HttpException(
         'Failed to run performance optimization',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -391,7 +391,7 @@ export class PerformanceMonitorController {
         timestamp: new Date(),
       };
     } catch (error) {
-      this.logger.error(`Failed to get optimization history: ${error.message}`);
+      this.logger.error(`Failed to get optimization history: ${error instanceof Error ? error.message : String(error)}`);
       throw new HttpException(
         'Failed to retrieve optimization history',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -427,7 +427,7 @@ export class PerformanceMonitorController {
         timestamp: new Date(),
       };
     } catch (error) {
-      this.logger.error(`Failed to get optimization recommendations: ${error.message}`);
+      this.logger.error(`Failed to get optimization recommendations: ${error instanceof Error ? error.message : String(error)}`);
       throw new HttpException(
         'Failed to retrieve optimization recommendations',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -460,7 +460,7 @@ export class PerformanceMonitorController {
         timestamp: new Date(),
       };
     } catch (error) {
-      this.logger.error(`Failed to get optimization summary: ${error.message}`);
+      this.logger.error(`Failed to get optimization summary: ${error instanceof Error ? error.message : String(error)}`);
       throw new HttpException(
         'Failed to retrieve optimization summary',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -493,7 +493,7 @@ export class PerformanceMonitorController {
         timestamp: new Date(),
       };
     } catch (error) {
-      this.logger.error(`Failed to force garbage collection: ${error.message}`);
+      this.logger.error(`Failed to force garbage collection: ${error instanceof Error ? error.message : String(error)}`);
       throw new HttpException(
         'Failed to force garbage collection',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -526,7 +526,7 @@ export class PerformanceMonitorController {
         timestamp: new Date(),
       };
     } catch (error) {
-      this.logger.error(`Failed to clear optimization history: ${error.message}`);
+      this.logger.error(`Failed to clear optimization history: ${error instanceof Error ? error.message : String(error)}`);
       throw new HttpException(
         'Failed to clear optimization history',
         HttpStatus.INTERNAL_SERVER_ERROR,

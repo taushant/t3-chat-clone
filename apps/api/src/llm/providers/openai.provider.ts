@@ -15,7 +15,7 @@ import {
  */
 @Injectable()
 export class OpenAIProvider extends BaseLLMProvider {
-  private client: OpenAI;
+  private client!: OpenAI;
   public readonly name = 'openai';
 
   constructor(config: LLMProviderConfig) {

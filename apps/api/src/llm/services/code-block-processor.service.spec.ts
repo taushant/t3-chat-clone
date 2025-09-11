@@ -23,20 +23,18 @@ describe('CodeBlockProcessorService', () => {
         id: 'block1',
         language: 'javascript',
         code: 'console.log("Hello World");',
-        startIndex: 0,
-        endIndex: 30,
-        lineCount: 1,
-        characterCount: 30,
+        startLine: 1,
+        endLine: 1,
         metadata: {
           language: 'javascript',
           hasErrors: false,
           keywords: [],
           lineCount: 1,
-          characterCount: 10,
+          characterCount: 30,
         },
       };
 
-      const processed = service.process(codeBlock);
+      const processed = service.formatCodeBlock(codeBlock);
       expect(processed).toBeDefined();
       expect(processed.language).toBe('javascript');
       expect(processed.code).toBe(codeBlock.code);
@@ -66,16 +64,14 @@ describe('CodeBlockProcessorService', () => {
         id: 'block1',
         language: 'javascript',
         code: 'console.log("Hello");',
-        startIndex: 0,
-        endIndex: 30,
-        lineCount: 1,
-        characterCount: 30,
+        startLine: 1,
+        endLine: 1,
         metadata: {
           language: 'javascript',
           hasErrors: false,
           keywords: [],
           lineCount: 1,
-          characterCount: 10,
+          characterCount: 30,
         },
       };
 
@@ -83,15 +79,13 @@ describe('CodeBlockProcessorService', () => {
         id: 'block2',
         language: '',
         code: '',
-        startIndex: 0,
-        endIndex: 0,
-        lineCount: 0,
-        characterCount: 0,
+        startLine: 1,
+        endLine: 1,
         metadata: {
           language: '',
           hasErrors: true,
           keywords: [],
-          lineCount: 0,
+          lineCount: 1,
           characterCount: 0,
         },
       };

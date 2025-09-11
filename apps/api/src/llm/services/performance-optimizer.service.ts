@@ -16,7 +16,7 @@ interface OptimizationConfig {
   bufferSize: number;
 }
 
-interface OptimizationResult {
+export interface OptimizationResult {
   applied: boolean;
   optimization: string;
   impact: 'low' | 'medium' | 'high';

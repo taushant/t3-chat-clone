@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
-interface PerformanceMetrics {
+export interface PerformanceMetrics {
   timestamp: Date;
   endpoint: string;
   method: string;
@@ -15,7 +15,7 @@ interface PerformanceMetrics {
   cpuUsage?: NodeJS.CpuUsage;
 }
 
-interface PerformanceStats {
+export interface PerformanceStats {
   totalRequests: number;
   averageResponseTime: number;
   minResponseTime: number;
@@ -53,7 +53,7 @@ export class PerformanceMonitorService implements OnModuleInit, OnModuleDestroy 
   private readonly logger = new Logger(PerformanceMonitorService.name);
   private readonly metrics: PerformanceMetrics[] = [];
   private readonly maxMetricsHistory = 10000; // Keep last 10k metrics
-  private readonly alertThresholds: AlertThresholds = {
+  private alertThresholds: AlertThresholds = {
     maxResponseTime: 5000, // 5 seconds
     minSuccessRate: 95, // 95%
     maxMemoryUsage: 500 * 1024 * 1024, // 500MB
@@ -61,7 +61,7 @@ export class PerformanceMonitorService implements OnModuleInit, OnModuleDestroy 
     maxRequestsPerSecond: 1000, // 1000 RPS
   };
   
-  private monitoringInterval: NodeJS.Timeout;
+  private monitoringInterval: NodeJS.Timeout | null = null;
   private isMonitoring = false;
   private startTime = Date.now();
   private requestCount = 0;

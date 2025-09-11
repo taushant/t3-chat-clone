@@ -8,7 +8,7 @@ export class UpdateParticipantRoleDto {
         example: 'user-id-123',
     })
     @IsUUID('4', { message: 'Invalid user ID format' })
-    userId: string;
+    userId!: string;
 
     @ApiProperty({
         description: 'New role for the participant',
@@ -16,5 +16,5 @@ export class UpdateParticipantRoleDto {
         example: ChatRole.MODERATOR,
     })
     @IsEnum(ChatRole, { message: 'Invalid chat role' })
-    newRole: ChatRole;
+    newRole!: ChatRole;
 }

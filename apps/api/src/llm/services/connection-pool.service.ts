@@ -18,7 +18,7 @@ export class ConnectionPoolService implements OnModuleDestroy {
   private readonly activeConnections = new Map<string, StreamingConnection>();
   private readonly connectionHealth = new Map<string, ConnectionHealth>();
   private readonly config: StreamingConfig;
-  private cleanupInterval: NodeJS.Timeout;
+  private cleanupInterval!: NodeJS.Timeout;
 
   constructor() {
     this.config = {

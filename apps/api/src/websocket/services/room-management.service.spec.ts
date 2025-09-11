@@ -3,6 +3,7 @@ import { RoomManagementService } from './room-management.service';
 import { ChatsService } from '../../chats/chats.service';
 import { PrismaService } from '../../database/prisma.service';
 import { Server } from 'socket.io';
+import { ChatRole } from '@prisma/client';
 
 describe('RoomManagementService', () => {
   let service: RoomManagementService;
@@ -24,7 +25,7 @@ describe('RoomManagementService', () => {
 
   const mockChat = {
     id: 'test-chat-id',
-    name: 'Test Chat',
+    title: 'Test Chat',
     description: 'Test Description',
     isPublic: true,
     participantCount: 1,
@@ -36,11 +37,16 @@ describe('RoomManagementService', () => {
     participants: [
       {
         userId: 'test-user-id',
-        role: 'MEMBER',
+        id: 'test-participant-id',
+        chatId: 'test-chat-id',
+        role: ChatRole.MEMBER,
+        joinedAt: new Date(),
         user: {
           id: 'test-user-id',
           username: 'testuser',
-          email: 'test@example.com',
+          firstName: null,
+          lastName: null,
+          avatar: null,
         },
       },
     ],
@@ -108,7 +114,7 @@ describe('RoomManagementService', () => {
     });
 
     it('should fail if chat is not found', async () => {
-      mockChatsService.findOne.mockResolvedValue(undefined);
+      mockChatsService.findOne.mockRejectedValue(new Error('Chat not found'));
       const result = await service.joinRoom(mockServer, mockClient, 'non-existent-chat');
 
       expect(result.success).toBe(false);

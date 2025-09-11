@@ -13,7 +13,7 @@ export class CreateChatDto {
     @IsString()
     @MinLength(1, { message: 'Title must not be empty' })
     @MaxLength(100, { message: 'Title must not exceed 100 characters' })
-    title: string;
+    title!: string;
 
     @ApiPropertyOptional({
         description: 'Chat description',

@@ -16,7 +16,7 @@ import {
  */
 @Injectable()
 export class OpenRouterProvider extends BaseLLMProvider {
-  private client: OpenAI;
+  private client!: OpenAI;
   public readonly name = 'openrouter';
 
   constructor(config: LLMProviderConfig) {

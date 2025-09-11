@@ -8,7 +8,7 @@ export class AddParticipantDto {
         example: 'user-id-123',
     })
     @IsUUID('4', { message: 'Invalid user ID format' })
-    userId: string;
+    userId!: string;
 
     @ApiProperty({
         description: 'Role for the participant in the chat',

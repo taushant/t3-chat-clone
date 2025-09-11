@@ -8,6 +8,7 @@ import {
   FilterType,
   FilterMetadata,
   TextPosition,
+  ModerationSeverity,
 } from '../types/content-moderation.types';
 
 /**

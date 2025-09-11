@@ -48,7 +48,7 @@ describe('MessagesService', () => {
       content: 'Hello, world!',
       type: MessageType.TEXT,
       chatId: 'chat-1',
-      metadata: null,
+              metadata: {},
     };
 
     it('should create a message successfully', async () => {

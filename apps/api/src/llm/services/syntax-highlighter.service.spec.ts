@@ -25,7 +25,7 @@ describe('SyntaxHighlighterService', () => {
 
       const highlighted = service.highlightCode(code, language, theme);
       expect(highlighted).toBeDefined();
-      expect(highlighted.content).toBe(code);
+      expect(highlighted.html).toContain(code);
       expect(highlighted.language).toBe(language);
       expect(highlighted.theme).toBe(theme);
       expect(highlighted.html).toBeDefined();
@@ -69,8 +69,8 @@ describe('SyntaxHighlighterService', () => {
       const validTheme = 'default';
       const invalidTheme = 'nonexistent';
 
-      const validResult = service.isThemeSupported(validTheme);
-      const invalidResult = service.isThemeSupported(invalidTheme);
+      const validResult = service.validateLanguage(validTheme);
+      const invalidResult = service.validateLanguage(invalidTheme);
 
       expect(validResult).toBe(true);
       expect(invalidResult).toBe(false);

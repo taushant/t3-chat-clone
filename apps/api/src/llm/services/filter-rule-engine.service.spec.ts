@@ -50,7 +50,7 @@ describe('FilterRuleEngineService', () => {
       };
 
       service.addRule(rule);
-      const rules = service.getFilterRules();
+      const rules = service.getAllRules();
       expect(rules).toContain(rule);
     });
   });
@@ -75,7 +75,7 @@ describe('FilterRuleEngineService', () => {
       const updatedRule = { ...rule, name: 'Updated Rule' };
       service.updateRule(rule.id, updatedRule);
 
-      const rules = service.getFilterRules();
+      const rules = service.getAllRules();
       const updated = rules.find((r: any) => r.id === rule.id);
       expect(updated?.name).toBe('Updated Rule');
     });
@@ -100,14 +100,14 @@ describe('FilterRuleEngineService', () => {
       service.addRule(rule);
       service.removeRule(rule.id);
 
-      const rules = service.getFilterRules();
+      const rules = service.getAllRules();
       expect(rules).not.toContain(rule);
     });
   });
 
   describe('getActiveRules', () => {
     it('should return list of active rules', () => {
-      const rules = service.getFilterRules();
+      const rules = service.getAllRules();
       expect(rules).toBeDefined();
       expect(Array.isArray(rules)).toBe(true);
     });

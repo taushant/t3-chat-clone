@@ -25,7 +25,7 @@ import {
   CitationType,
   SummaryType,
 } from '../types/response-processing.types';
-import { ChatCompletionChunk } from '../types/chat-completion.types';
+import { ChatCompletionResponse, ChatCompletionChunk } from '../types/chat-completion.types';
 
 /**
  * Response Processor Service
@@ -61,7 +61,7 @@ export class ResponseProcessorService {
    * @param response - LLM response to process
    * @returns ProcessedResponse
    */
-  async processResponse(response: LLMResponse): Promise<ProcessedResponse> {
+  async processResponse(response: ChatCompletionResponse): Promise<ProcessedResponse> {
     const startTime = Date.now();
     
     this.logger.debug(`Processing response, model: ${response.model}`);
@@ -71,7 +71,7 @@ export class ResponseProcessorService {
       const processedResponse: ProcessedResponse = {
         id: this.generateResponseId(),
         originalResponse: response,
-        processedContent: response.choices[0]?.message?.content || '',
+        processedContent: response.choices[0]?.delta?.content || '',
         metadata: await this.extractMetadata(response, startTime),
         enhancements: await this.extractEnhancements(response),
         quality: await this.analyzeQuality(response),
@@ -278,8 +278,8 @@ export class ResponseProcessorService {
    * @param startTime - Processing start time
    * @returns ResponseMetadata
    */
-  private async extractMetadata(response: LLMResponse, startTime: number): Promise<ResponseMetadata> {
-    const content = response.choices[0]?.message?.content || '';
+  private async extractMetadata(response: ChatCompletionResponse, startTime: number): Promise<ResponseMetadata> {
+    const content = response.choices[0]?.delta?.content || '';
     const words = content.split(/\s+/).filter((word: string) => word.length > 0);
 
     return {
@@ -300,8 +300,8 @@ export class ResponseProcessorService {
    * @param response - LLM response
    * @returns ResponseEnhancements
    */
-  private async extractEnhancements(response: LLMResponse): Promise<ResponseEnhancements> {
-    const content = response.choices[0]?.message?.content || '';
+  private async extractEnhancements(response: ChatCompletionResponse): Promise<ResponseEnhancements> {
+    const content = response.choices[0]?.delta?.content || '';
 
     return {
       markdownProcessed: this.hasMarkdown(content),
@@ -320,8 +320,8 @@ export class ResponseProcessorService {
    * @param response - LLM response
    * @returns ResponseQuality
    */
-  private async analyzeQuality(response: LLMResponse): Promise<ResponseQuality> {
-    const content = response.choices[0]?.message?.content || '';
+  private async analyzeQuality(response: ChatCompletionResponse): Promise<ResponseQuality> {
+    const content = response.choices[0]?.delta?.content || '';
     
     const factors: QualityFactor[] = [
       {

@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
   Logger,
+  SetMetadata,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { LLMRateLimitService } from '../services/rate-limit.service';
@@ -14,7 +15,8 @@ import { AuthenticatedRequest } from '../../auth/interfaces/authenticated-reques
  * Rate limit metadata for LLM endpoints
  */
 export const LLM_RATE_LIMIT_KEY = 'llm_rate_limit';
-export const LLM_RATE_LIMIT = Reflector.createDecorator<{ provider?: string; estimatedTokens?: number }>(LLM_RATE_LIMIT_KEY);
+export const LLM_RATE_LIMIT = (options?: { provider?: string; estimatedTokens?: number }) => 
+  SetMetadata(LLM_RATE_LIMIT_KEY, options);
 
 /**
  * LLM Rate Limiting Guard

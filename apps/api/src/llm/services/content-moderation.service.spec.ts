@@ -67,9 +67,9 @@ describe('ContentModerationService', () => {
     it('should return moderation statistics', () => {
       const stats = service.getModerationStats();
       expect(stats).toBeDefined();
-      expect(stats.totalModerated).toBeDefined();
+      expect(stats.totalContent).toBeDefined();
       expect(stats.approvedContent).toBeDefined();
-      expect(stats.rejectedContentCount).toBeDefined();
+      expect(stats.blockedContent).toBeDefined();
     });
   });
 });

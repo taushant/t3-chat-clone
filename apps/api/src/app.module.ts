@@ -1,49 +1,56 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { ThrottlerModule } from "@nestjs/throttler";
 import { TerminusModule } from "@nestjs/terminus";
 import { AppController } from "./app.controller";
 import { HealthController } from "./health/health.controller";
 import { ConfigService } from "./config/config.service";
+// Adding database module back
 import { DatabaseModule } from './database/database.module';
+// Adding auth module back
 import { AuthModule } from './auth/auth.module';
+// Adding users module back  
 import { UsersModule } from './users/users.module';
+// Adding chats and messages modules back
 import { ChatsModule } from './chats/chats.module';
 import { MessagesModule } from './messages/messages.module';
+// Adding websocket module back
 import { WebsocketModule } from './websocket/websocket.module';
-import { LLMModule } from './llm/llm.module';
+// LLM module temporarily excluded due to DTO compilation issues
+// import { LLMModule } from './llm/llm.module';
+import { ThrottlerModule } from "@nestjs/throttler";
 
 @Module({
   imports: [
-    // Configuration module
+    // Configuration module - essential for ConfigService
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [".env.local", ".env"],
       cache: true,
     }),
 
-    // Database module
+    // Health checks module - essential for health endpoints
+    TerminusModule,
+
+    // Adding database module back
     DatabaseModule,
-
-    // Authentication module
+    
+    // Adding auth module back
     AuthModule,
-
-    // Users module
+    
+    // Adding users module back
     UsersModule,
-
-    // Chats module
+    
+    // Adding chats and messages modules back
     ChatsModule,
-
-    // Messages module
     MessagesModule,
-
-    // WebSocket module
+    
+    // Adding websocket module back
     WebsocketModule,
+    
+    // LLM module temporarily excluded due to DTO compilation issues
+    // LLMModule,
 
-    // LLM module
-    LLMModule,
-
-    // Rate limiting module
+    // Rate limiting module - adding back
     ThrottlerModule.forRoot([
       {
         ttl: 60000, // 1 minute
@@ -54,9 +61,6 @@ import { LLMModule } from './llm/llm.module';
         limit: 5, // 5 attempts per 5 minutes for auth endpoints
       },
     ]),
-
-    // Health checks module
-    TerminusModule,
   ],
   controllers: [AppController, HealthController],
   providers: [ConfigService],

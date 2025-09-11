@@ -29,9 +29,9 @@ describe('ContentFilterService', () => {
       const result = await service.filterContent(content, context);
 
       expect(result).toBeDefined();
-      expect(result.isBlocked).toBeDefined();
+      expect(result.isAllowed).toBeDefined();
       expect(result.filteredContent).toBeDefined();
-      expect(result.blockedRules).toBeDefined();
+      expect(result.appliedRules).toBeDefined();
     });
   });
 
@@ -47,18 +47,17 @@ describe('ContentFilterService', () => {
       const result = await service.filterStreamingContent(chunk, context);
 
       expect(result).toBeDefined();
-      expect(result.isBlocked).toBeDefined();
+      expect(result.isAllowed).toBeDefined();
       expect(result.filteredContent).toBeDefined();
-      expect(result.blockedRules).toBeDefined();
+      expect(result.appliedRules).toBeDefined();
     });
   });
 
   describe('getFilterStats', () => {
     it('should return filter statistics', () => {
-      const stats = service.getFilterStatistics();
-      expect(stats).toBeDefined();
-      expect(stats.totalFiltered).toBeDefined();
-      expect(stats.filterTypes).toBeDefined();
+      const rules = service.getFilterRules();
+      expect(rules).toBeDefined();
+      expect(Array.isArray(rules)).toBe(true);
     });
   });
 

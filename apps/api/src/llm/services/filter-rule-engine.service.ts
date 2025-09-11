@@ -7,6 +7,7 @@ import {
   TextPosition,
   FilterRuleType,
   FilterAction,
+  ModerationSeverity,
 } from '../types/content-moderation.types';
 
 /**

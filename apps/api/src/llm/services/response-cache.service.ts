@@ -20,7 +20,7 @@ export class ResponseCacheService implements OnModuleDestroy {
   private readonly maxSize: number;
   private readonly defaultTTL: number;
   private readonly strategy: CacheStrategy;
-  private cleanupInterval: NodeJS.Timeout;
+  private cleanupInterval!: NodeJS.Timeout;
 
   constructor() {
     this.maxSize = 1000; // Maximum number of cached responses

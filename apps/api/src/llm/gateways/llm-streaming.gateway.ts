@@ -37,7 +37,7 @@ import {
 @UseGuards(WsJwtAuthGuard)
 export class LLMStreamingGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
-  server: Server;
+  server!: Server;
 
   private readonly logger = new Logger(LLMStreamingGateway.name);
   private readonly activeStreams = new Map<string, {

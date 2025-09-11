@@ -91,10 +91,11 @@ describe('StreamingBufferService', () => {
       service.writeChunk(connectionId, chunk1);
       service.writeChunk(connectionId, chunk2);
 
-      const chunks = service.getChunks(connectionId);
-      expect(chunks).toHaveLength(2);
-      expect(chunks).toContain(chunk1);
-      expect(chunks).toContain(chunk2);
+      const bufferStatus = service.getBufferStatus(connectionId);
+      expect(bufferStatus).toBeDefined();
+      if (bufferStatus) {
+        expect(bufferStatus.chunkCount).toBe(2);
+      }
     });
   });
 

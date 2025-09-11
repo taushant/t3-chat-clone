@@ -15,7 +15,7 @@ import {
  */
 @Injectable()
 export class AnthropicProvider extends BaseLLMProvider {
-  private client: Anthropic;
+  private client!: Anthropic;
   public readonly name = 'anthropic';
 
   constructor(config: LLMProviderConfig) {

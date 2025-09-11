@@ -27,7 +27,7 @@ describe('MessagingService', () => {
   const mockMessage = {
     id: 'test-message-id',
     content: 'Test message',
-    type: 'text',
+    type: 'TEXT' as any,
     chatId: 'test-chat-id',
     userId: 'test-user-id',
     createdAt: new Date(),
@@ -108,7 +108,7 @@ describe('MessagingService', () => {
       const messageData = {
         chatId: 'test-chat-id',
         content: 'Test message',
-        type: 'text',
+        type: 'TEXT' as any,
       };
 
       const result = await service.sendMessage(mockServer, mockClient, messageData);
@@ -118,7 +118,7 @@ describe('MessagingService', () => {
       expect(mockMessagesService.create).toHaveBeenCalledWith(
         {
           content: 'Test message',
-          type: 'text',
+          type: 'TEXT' as any,
           chatId: 'test-chat-id',
         },
         'test-user-id'
@@ -132,7 +132,7 @@ describe('MessagingService', () => {
       const messageData = {
         chatId: 'test-chat-id',
         content: 'Test message',
-        type: 'text',
+        type: 'TEXT' as any,
       };
 
       const result = await service.sendMessage(mockServer, unauthenticatedClient, messageData);
@@ -146,7 +146,7 @@ describe('MessagingService', () => {
       const messageData = {
         chatId: 'test-chat-id',
         content: 'Test message',
-        type: 'text',
+        type: 'TEXT' as any,
       };
 
       const result = await service.sendMessage(mockServer, mockClient, messageData);
@@ -160,7 +160,7 @@ describe('MessagingService', () => {
       const messageData = {
         chatId: 'test-chat-id',
         content: 'Test message',
-        type: 'text',
+        type: 'TEXT' as any,
       };
 
       const result = await service.sendMessage(mockServer, mockClient, messageData);
@@ -283,7 +283,7 @@ describe('MessagingService', () => {
       const messageData = {
         chatId: 'test-chat-id',
         content: 'Test message',
-        type: 'text',
+        type: 'TEXT' as any,
       };
 
       await service.sendMessage(mockServer, mockClient, messageData);

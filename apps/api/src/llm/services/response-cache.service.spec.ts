@@ -5,6 +5,51 @@ import { ProcessedResponse } from '../types/response-processing.types';
 describe('ResponseCacheService', () => {
   let service: ResponseCacheService;
 
+  const createMockResponse = (id: string, content: string): ProcessedResponse => ({
+    id,
+    originalResponse: {},
+    processedContent: content,
+    metadata: {
+      processingTime: 100,
+      contentLength: content.length,
+      wordCount: content.split(' ').length,
+    },
+    enhancements: {
+      markdownProcessed: false,
+      syntaxHighlighted: false,
+      linksExtracted: [],
+      imagesExtracted: [],
+      codeBlocksExtracted: [],
+      tablesExtracted: [],
+      citationsExtracted: [],
+      summariesGenerated: [],
+    },
+    quality: {
+      score: 0.8,
+      factors: [],
+      suggestions: [],
+      readability: {
+        score: 0.8,
+        level: 'intermediate' as any,
+        suggestions: [],
+        metrics: {
+          averageWordsPerSentence: 15,
+          averageSyllablesPerWord: 2,
+          complexWords: 5,
+          totalWords: 100,
+          totalSentences: 10,
+          fleschKincaid: 8,
+          gunningFog: 12,
+          smog: 10,
+        },
+      },
+      coherence: 0.8,
+      relevance: 0.8,
+      completeness: 0.8,
+    },
+    timestamp: new Date(),
+  });
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [ResponseCacheService],
@@ -20,15 +65,7 @@ describe('ResponseCacheService', () => {
   describe('cacheResponse', () => {
     it('should cache a processed response', () => {
       const key = 'cache123';
-      const response: ProcessedResponse = {
-        id: 'resp123',
-        processedContent: 'This is a test response.',
-        metadata: {
-          processingTime: 100,
-          contentLength: 50,
-          wordCount: 10,
-        },
-      };
+      const response = createMockResponse('resp123', 'This is a test response.');
 
       service.cacheResponse(key, response);
       const cached = service.getCachedResponse(key);
@@ -40,15 +77,7 @@ describe('ResponseCacheService', () => {
   describe('getCachedResponse', () => {
     it('should return cached response if it exists', () => {
       const key = 'cache123';
-      const response: ProcessedResponse = {
-        id: 'resp123',
-        processedContent: 'This is a test response.',
-        metadata: {
-          processingTime: 100,
-          contentLength: 50,
-          wordCount: 10,
-        },
-      };
+      const response = createMockResponse('resp123', 'This is a test response.');
 
       service.cacheResponse(key, response);
       const cached = service.getCachedResponse(key);
@@ -65,15 +94,7 @@ describe('ResponseCacheService', () => {
   describe('invalidateCache', () => {
     it('should invalidate cached response', () => {
       const key = 'cache123';
-      const response: ProcessedResponse = {
-        id: 'resp123',
-        processedContent: 'This is a test response.',
-        metadata: {
-          processingTime: 100,
-          contentLength: 50,
-          wordCount: 10,
-        },
-      };
+      const response = createMockResponse('resp123', 'This is a test response.');
 
       service.cacheResponse(key, response);
       service.invalidateCache(key);
@@ -94,15 +115,7 @@ describe('ResponseCacheService', () => {
   describe('clearCache', () => {
     it('should clear all cached responses', () => {
       const key = 'cache123';
-      const response: ProcessedResponse = {
-        id: 'resp123',
-        processedContent: 'This is a test response.',
-        metadata: {
-          processingTime: 100,
-          contentLength: 50,
-          wordCount: 10,
-        },
-      };
+      const response = createMockResponse('resp123', 'This is a test response.');
 
       service.cacheResponse(key, response);
       service.clearAllCache();

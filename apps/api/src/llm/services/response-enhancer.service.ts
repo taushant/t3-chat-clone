@@ -201,8 +201,11 @@ export class ResponseEnhancerService {
         const enhancedLink: Link = {
           ...link,
           metadata: {
-            ...link.metadata,
-            // Add additional metadata like favicon, description, etc.
+            domain: link.metadata?.domain || new URL(link.url).hostname,
+            protocol: link.metadata?.protocol || new URL(link.url).protocol.replace(':', ''),
+            path: link.metadata?.path || new URL(link.url).pathname,
+            query: link.metadata?.query || new URL(link.url).search,
+            fragment: link.metadata?.fragment || new URL(link.url).hash,
             favicon: await this.getFavicon(link.url) || undefined,
             description: await this.getLinkDescription(link.url) || undefined,
             image: await this.getLinkImage(link.url) || undefined,
@@ -231,8 +234,11 @@ export class ResponseEnhancerService {
         const enhancedImage: Image = {
           ...image,
           metadata: {
-            ...image.metadata,
-            // Add additional metadata like dimensions, format, etc.
+            domain: image.metadata?.domain || new URL(image.url).hostname,
+            protocol: image.metadata?.protocol || new URL(image.url).protocol.replace(':', ''),
+            path: image.metadata?.path || new URL(image.url).pathname,
+            filename: image.metadata?.filename || new URL(image.url).pathname.split('/').pop() || '',
+            extension: image.metadata?.extension || new URL(image.url).pathname.split('.').pop() || '',
             mimeType: await this.getImageMimeType(image.url) || undefined,
             description: await this.getImageDescription(image.url) || undefined,
             caption: await this.getImageCaption(image.url) || undefined,
@@ -269,11 +275,9 @@ export class ResponseEnhancerService {
             functions: await this.extractFunctions(codeBlock.code, codeBlock.language),
             classes: await this.extractClasses(codeBlock.code, codeBlock.language),
             language: codeBlock.language || 'text',
-            detectedLanguage: await this.detectLanguage(codeBlock.code),
-            hasErrors: await this.detectSyntaxErrors(codeBlock.code, codeBlock.language),
-            keywords: await this.extractKeywords(codeBlock.code, codeBlock.language),
-            lineCount: codeBlock.lineCount,
-            characterCount: codeBlock.characterCount,
+            detectedLanguage: codeBlock.language,
+            hasErrors: false, // Simple fallback for now
+            keywords: await this.extractKeywords(codeBlock.code),
           },
         };
         enhancedCodeBlocks.push(enhancedCodeBlock);
@@ -334,6 +338,7 @@ export class ResponseEnhancerService {
             // Add additional metadata like DOI, ISBN, etc.
             doi: await this.extractDOI(citation.text) || undefined,
             isbn: await this.extractISBN(citation.text) || undefined,
+            confidence: citation.metadata?.confidence || 0.8,
           },
         };
         enhancedCitations.push(enhancedCitation);

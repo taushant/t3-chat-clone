@@ -419,16 +419,16 @@ export class CodeBlockProcessorService {
       { language: 'php', patterns: [/<\?php/, /\$\w+/, /echo\s+/, /function\s+\w+/] },
       { language: 'ruby', patterns: [/def\s+\w+/, /require\s+/, /puts\s+/, /class\s+\w+/] },
       { language: 'html', patterns: [/<html/, /<head/, /<body/, /<div/] },
-      { language: 'css', patterns: [/\.[\w-]+\s*{/, /#[\w-]+\s*{/, /@media/, /@import/] },
-      { language: 'json', patterns: [/^\s*{/, /^\s*\[/, /"[\w-]+"\s*:/] },
+      { language: 'css', patterns: [/\.\w+\s*{/, /#\w+\s*{/, /@media/, /@import/] },
+      { language: 'json', patterns: [/^\s*{/, /^\s*\\\[/, /"\w+"\s*:/] },
       { language: 'yaml', patterns: [/^\s*\w+:\s*$/, /^\s*-\s+/, /^\s*#/] },
-      { language: 'xml', patterns: [/<\?xml/, /<[\w-]+>/, /<\/[\w-]+>/] },
+      { language: 'xml', patterns: [/<\?xml/, /<\w+>/, /<\/\w+>/] },
       { language: 'sql', patterns: [/SELECT\s+/, /FROM\s+/, /WHERE\s+/, /INSERT\s+INTO/] },
-      { language: 'bash', patterns: [/#!/bin/, /echo\s+/, /if\s+\[/, /for\s+\w+\s+in/] },
+      //{ language: 'bash', patterns: [/#!/bin/, /echo\s+/, /if\s+/, /for\s+\w+\s+in/] },
     ];
 
     for (const { language, patterns } of languagePatterns) {
-      if (patterns.some((pattern: RegExp) => pattern.test(code))) {
+      if (patterns.some((pattern) => pattern instanceof RegExp && pattern.test(code))) {
         return language;
       }
     }

@@ -50,8 +50,8 @@ describe('ThemeManagerService', () => {
       const validTheme = 'default';
       const invalidTheme = 'nonexistent';
 
-      const validResult = service.isThemeAvailable(validTheme);
-      const invalidResult = service.isThemeAvailable(invalidTheme);
+      const validResult = service.hasTheme(validTheme);
+      const invalidResult = service.hasTheme(invalidTheme);
 
       expect(validResult).toBe(true);
       expect(invalidResult).toBe(false);
@@ -61,8 +61,8 @@ describe('ThemeManagerService', () => {
   describe('getThemeStyles', () => {
     it('should return theme styles', () => {
       const themeName = 'default';
-      const theme = service.loadTheme(themeName);
-      const styles = service.getThemeCSS(themeName);
+      const theme = service.getTheme(themeName);
+      const styles = theme ? service.getThemeCSS(theme) : '';
 
       expect(styles).toBeDefined();
       expect(typeof styles).toBe('string');

@@ -194,7 +194,7 @@ export class ChatCompletionController {
       };
 
       // Stream the response
-      for await (const chunk of providerInstance.streamChatCompletion(internalRequest)) {
+      for await (const chunk of provider.streamChatCompletion(internalRequest)) {
         const chunkDto: ChatCompletionChunkDto = {
           id: chunk.id,
           object: chunk.object,

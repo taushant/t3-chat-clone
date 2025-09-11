@@ -12,7 +12,7 @@ export class CreateMessageDto {
     @IsString()
     @MinLength(1, { message: 'Message content must not be empty' })
     @MaxLength(5000, { message: 'Message content must not exceed 5000 characters' })
-    content: string;
+    content!: string;
 
     @ApiProperty({
         description: 'Type of message',
@@ -28,7 +28,7 @@ export class CreateMessageDto {
         example: 'chat-id-123',
     })
     @IsUUID('4', { message: 'Invalid chat ID format' })
-    chatId: string;
+    chatId!: string;
 
     @ApiPropertyOptional({
         description: 'Additional metadata for the message',

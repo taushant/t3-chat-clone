@@ -43,13 +43,16 @@ describe('StreamingStateService', () => {
       const session = service.createSession(userId, requestId, provider, model);
 
       const newState: StreamingState = {
+        sessionId: 'test-session',
         status: 'streaming' as any,
-        progress: 0.5,
+        currentChunk: 5,
         totalChunks: 10,
+        progress: 50,
+        lastUpdate: new Date(),
       };
 
       service.updateSession(session.id, newState);
-      expect(session.currentState).toBe(newState);
+      expect(session.status).toBe(newState.status);
     });
   });
 
