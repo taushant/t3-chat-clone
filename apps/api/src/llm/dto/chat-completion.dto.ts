@@ -1,32 +1,42 @@
-import { IsString, IsArray, IsOptional, IsNumber, IsBoolean, Min, Max, ValidateNested, IsEnum } from 'class-validator';
-import { Type } from 'class-transformer';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsString,
+  IsArray,
+  IsOptional,
+  IsNumber,
+  IsBoolean,
+  Min,
+  Max,
+  ValidateNested,
+  IsEnum,
+} from "class-validator";
+import { Type } from "class-transformer";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export enum MessageRole {
-  SYSTEM = 'system',
-  USER = 'user',
-  ASSISTANT = 'assistant',
+  SYSTEM = "system",
+  USER = "user",
+  ASSISTANT = "assistant",
 }
 
 export class ChatMessageDto {
   @ApiProperty({
-    description: 'Role of the message sender',
+    description: "Role of the message sender",
     enum: MessageRole,
     example: MessageRole.USER,
   })
   @IsEnum(MessageRole)
-  role: MessageRole;
+  role!: MessageRole;
 
   @ApiProperty({
-    description: 'Content of the message',
-    example: 'Hello, how are you?',
+    description: "Content of the message",
+    example: "Hello, how are you?",
   })
   @IsString()
-  content: string;
+  content!: string;
 
   @ApiPropertyOptional({
-    description: 'Name of the message sender (optional)',
-    example: 'John Doe',
+    description: "Name of the message sender (optional)",
+    example: "John Doe",
   })
   @IsOptional()
   @IsString()
@@ -35,27 +45,27 @@ export class ChatMessageDto {
 
 export class ChatCompletionRequestDto {
   @ApiProperty({
-    description: 'Array of chat messages',
+    description: "Array of chat messages",
     type: [ChatMessageDto],
     example: [
-      { role: 'system', content: 'You are a helpful assistant.' },
-      { role: 'user', content: 'Hello, how are you?' },
+      { role: "system", content: "You are a helpful assistant." },
+      { role: "user", content: "Hello, how are you?" },
     ],
   })
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => ChatMessageDto)
-  messages: ChatMessageDto[];
+  messages!: ChatMessageDto[];
 
   @ApiProperty({
-    description: 'Model to use for completion',
-    example: 'gpt-3.5-turbo',
+    description: "Model to use for completion",
+    example: "gpt-3.5-turbo",
   })
   @IsString()
-  model: string;
+  model!: string;
 
   @ApiPropertyOptional({
-    description: 'Sampling temperature (0-2)',
+    description: "Sampling temperature (0-2)",
     minimum: 0,
     maximum: 2,
     default: 1,
@@ -68,7 +78,7 @@ export class ChatCompletionRequestDto {
   temperature?: number;
 
   @ApiPropertyOptional({
-    description: 'Maximum number of tokens to generate',
+    description: "Maximum number of tokens to generate",
     minimum: 1,
     example: 1000,
   })
@@ -78,7 +88,7 @@ export class ChatCompletionRequestDto {
   maxTokens?: number;
 
   @ApiPropertyOptional({
-    description: 'Whether to stream the response',
+    description: "Whether to stream the response",
     default: false,
     example: true,
   })
@@ -87,9 +97,9 @@ export class ChatCompletionRequestDto {
   stream?: boolean;
 
   @ApiPropertyOptional({
-    description: 'Stop sequences',
+    description: "Stop sequences",
     type: [String],
-    example: ['\n', 'Human:'],
+    example: ["\n", "Human:"],
   })
   @IsOptional()
   @IsArray()
@@ -97,7 +107,7 @@ export class ChatCompletionRequestDto {
   stop?: string[];
 
   @ApiPropertyOptional({
-    description: 'Top-p sampling parameter (0-1)',
+    description: "Top-p sampling parameter (0-1)",
     minimum: 0,
     maximum: 1,
     example: 0.9,
@@ -109,7 +119,7 @@ export class ChatCompletionRequestDto {
   topP?: number;
 
   @ApiPropertyOptional({
-    description: 'Frequency penalty (-2 to 2)',
+    description: "Frequency penalty (-2 to 2)",
     minimum: -2,
     maximum: 2,
     example: 0,
@@ -121,7 +131,7 @@ export class ChatCompletionRequestDto {
   frequencyPenalty?: number;
 
   @ApiPropertyOptional({
-    description: 'Presence penalty (-2 to 2)',
+    description: "Presence penalty (-2 to 2)",
     minimum: -2,
     maximum: 2,
     example: 0,
@@ -135,59 +145,62 @@ export class ChatCompletionRequestDto {
 
 export class ChatCompletionResponseDto {
   @ApiProperty({
-    description: 'Unique identifier for the completion',
-    example: 'chatcmpl-123',
+    description: "Unique identifier for the completion",
+    example: "chatcmpl-123",
   })
-  id: string;
+  id!: string;
 
   @ApiProperty({
-    description: 'Object type',
-    example: 'chat.completion',
+    description: "Object type",
+    example: "chat.completion",
   })
-  object: string;
+  object!: string;
 
   @ApiProperty({
-    description: 'Unix timestamp of creation',
+    description: "Unix timestamp of creation",
     example: 1677652288,
   })
-  created: number;
+  created!: number;
 
   @ApiProperty({
-    description: 'Model used for completion',
-    example: 'gpt-3.5-turbo',
+    description: "Model used for completion",
+    example: "gpt-3.5-turbo",
   })
-  model: string;
+  model!: string;
 
   @ApiProperty({
-    description: 'Array of completion choices',
-    type: 'array',
+    description: "Array of completion choices",
+    type: "array",
     items: {
-      type: 'object',
+      type: "object",
       properties: {
-        index: { type: 'number', example: 0 },
+        index: { type: "number", example: 0 },
         message: {
-          type: 'object',
+          type: "object",
           properties: {
-            role: { type: 'string', example: 'assistant' },
-            content: { type: 'string', example: 'Hello! I am doing well, thank you for asking.' },
+            role: { type: "string", example: "assistant" },
+            content: {
+              type: "string",
+              example: "Hello! I am doing well, thank you for asking.",
+            },
           },
         },
-        finishReason: { type: 'string', example: 'stop' },
+        finishReason: { type: "string", example: "stop" },
       },
     },
   })
-  choices: any[];
+  choices!: any[];
 
   @ApiProperty({
-    description: 'Token usage information',
-    type: 'object',
+    description: "Token usage information",
+    type: "object",
     properties: {
-      promptTokens: { type: 'number', example: 10 },
-      completionTokens: { type: 'number', example: 20 },
-      totalTokens: { type: 'number', example: 30 },
+      promptTokens: { type: "number", example: 10 },
+      completionTokens: { type: "number", example: 20 },
+      totalTokens: { type: "number", example: 30 },
     },
   })
-  usage: {
+  usage!: {
     promptTokens: number;
     completionTokens: number;
     totalTokens: number;
@@ -196,46 +209,46 @@ export class ChatCompletionResponseDto {
 
 export class ChatCompletionChunkDto {
   @ApiProperty({
-    description: 'Unique identifier for the completion',
-    example: 'chatcmpl-123',
+    description: "Unique identifier for the completion",
+    example: "chatcmpl-123",
   })
-  id: string;
+  id!: string;
 
   @ApiProperty({
-    description: 'Object type',
-    example: 'chat.completion.chunk',
+    description: "Object type",
+    example: "chat.completion.chunk",
   })
-  object: string;
+  object!: string;
 
   @ApiProperty({
-    description: 'Unix timestamp of creation',
+    description: "Unix timestamp of creation",
     example: 1677652288,
   })
-  created: number;
+  created!: number;
 
   @ApiProperty({
-    description: 'Model used for completion',
-    example: 'gpt-3.5-turbo',
+    description: "Model used for completion",
+    example: "gpt-3.5-turbo",
   })
-  model: string;
+  model!: string;
 
   @ApiProperty({
-    description: 'Array of completion choices',
-    type: 'array',
+    description: "Array of completion choices",
+    type: "array",
     items: {
-      type: 'object',
+      type: "object",
       properties: {
-        index: { type: 'number', example: 0 },
+        index: { type: "number", example: 0 },
         delta: {
-          type: 'object',
+          type: "object",
           properties: {
-            role: { type: 'string', example: 'assistant' },
-            content: { type: 'string', example: 'Hello' },
+            role: { type: "string", example: "assistant" },
+            content: { type: "string", example: "Hello" },
           },
         },
-        finishReason: { type: 'string', example: 'stop' },
+        finishReason: { type: "string", example: "stop" },
       },
     },
   })
-  choices: any[];
+  choices!: any[];
 }

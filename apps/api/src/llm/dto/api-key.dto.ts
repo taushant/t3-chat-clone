@@ -1,35 +1,42 @@
-import { IsString, IsOptional, IsBoolean, IsDateString, MinLength, MaxLength } from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsString,
+  IsOptional,
+  IsBoolean,
+  IsDateString,
+  MinLength,
+  MaxLength,
+} from "class-validator";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class CreateApiKeyDto {
   @ApiProperty({
-    description: 'Name for the API key',
-    example: 'My OpenAI Key',
+    description: "Name for the API key",
+    example: "My OpenAI Key",
     minLength: 1,
     maxLength: 100,
   })
   @IsString()
   @MinLength(1)
   @MaxLength(100)
-  name: string;
+  name!: string;
 
   @ApiProperty({
-    description: 'LLM provider name',
-    example: 'openai',
+    description: "LLM provider name",
+    example: "openai",
   })
   @IsString()
-  provider: string;
+  provider!: string;
 
   @ApiProperty({
-    description: 'API key value',
-    example: 'sk-1234567890abcdef',
+    description: "API key value",
+    example: "sk-1234567890abcdef",
   })
   @IsString()
   @MinLength(1)
-  key: string;
+  key!: string;
 
   @ApiPropertyOptional({
-    description: 'Whether the API key is active',
+    description: "Whether the API key is active",
     default: true,
     example: true,
   })
@@ -38,8 +45,8 @@ export class CreateApiKeyDto {
   isActive?: boolean;
 
   @ApiPropertyOptional({
-    description: 'Expiration date (ISO string)',
-    example: '2024-12-31T23:59:59.000Z',
+    description: "Expiration date (ISO string)",
+    example: "2024-12-31T23:59:59.000Z",
   })
   @IsOptional()
   @IsDateString()
@@ -48,8 +55,8 @@ export class CreateApiKeyDto {
 
 export class UpdateApiKeyDto {
   @ApiPropertyOptional({
-    description: 'Name for the API key',
-    example: 'Updated OpenAI Key',
+    description: "Name for the API key",
+    example: "Updated OpenAI Key",
     minLength: 1,
     maxLength: 100,
   })
@@ -60,7 +67,7 @@ export class UpdateApiKeyDto {
   name?: string;
 
   @ApiPropertyOptional({
-    description: 'Whether the API key is active',
+    description: "Whether the API key is active",
     example: false,
   })
   @IsOptional()
@@ -68,8 +75,8 @@ export class UpdateApiKeyDto {
   isActive?: boolean;
 
   @ApiPropertyOptional({
-    description: 'Expiration date (ISO string)',
-    example: '2024-12-31T23:59:59.000Z',
+    description: "Expiration date (ISO string)",
+    example: "2024-12-31T23:59:59.000Z",
   })
   @IsOptional()
   @IsDateString()
@@ -78,108 +85,108 @@ export class UpdateApiKeyDto {
 
 export class ApiKeyResponseDto {
   @ApiProperty({
-    description: 'API key ID',
-    example: 'cm1234567890',
+    description: "API key ID",
+    example: "cm1234567890",
   })
-  id: string;
+  id!: string;
 
   @ApiProperty({
-    description: 'Name of the API key',
-    example: 'My OpenAI Key',
+    description: "Name of the API key",
+    example: "My OpenAI Key",
   })
-  name: string;
+  name!: string;
 
   @ApiProperty({
-    description: 'LLM provider name',
-    example: 'openai',
+    description: "LLM provider name",
+    example: "openai",
   })
-  provider: string;
+  provider!: string;
 
   @ApiProperty({
-    description: 'Whether the API key is active',
+    description: "Whether the API key is active",
     example: true,
   })
-  isActive: boolean;
+  isActive!: boolean;
 
   @ApiPropertyOptional({
-    description: 'Expiration date',
-    example: '2024-12-31T23:59:59.000Z',
+    description: "Expiration date",
+    example: "2024-12-31T23:59:59.000Z",
   })
   expiresAt?: Date;
 
   @ApiProperty({
-    description: 'Creation date',
-    example: '2024-01-01T00:00:00.000Z',
+    description: "Creation date",
+    example: "2024-01-01T00:00:00.000Z",
   })
-  createdAt: Date;
+  createdAt!: Date;
 
   @ApiProperty({
-    description: 'Last update date',
-    example: '2024-01-01T00:00:00.000Z',
+    description: "Last update date",
+    example: "2024-01-01T00:00:00.000Z",
   })
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @ApiPropertyOptional({
-    description: 'Last usage date',
-    example: '2024-01-01T00:00:00.000Z',
+    description: "Last usage date",
+    example: "2024-01-01T00:00:00.000Z",
   })
   lastUsed?: Date;
 
   @ApiProperty({
-    description: 'Number of times this key has been used',
+    description: "Number of times this key has been used",
     example: 42,
   })
-  usageCount: number;
+  usageCount!: number;
 }
 
 export class ApiKeyListResponseDto {
   @ApiProperty({
-    description: 'Array of API keys',
+    description: "Array of API keys",
     type: [ApiKeyResponseDto],
   })
-  apiKeys: ApiKeyResponseDto[];
+  apiKeys!: ApiKeyResponseDto[];
 
   @ApiProperty({
-    description: 'Total number of API keys',
+    description: "Total number of API keys",
     example: 5,
   })
-  total: number;
+  total!: number;
 }
 
 export class ValidateApiKeyDto {
   @ApiProperty({
-    description: 'LLM provider name',
-    example: 'openai',
+    description: "LLM provider name",
+    example: "openai",
   })
   @IsString()
-  provider: string;
+  provider!: string;
 
   @ApiProperty({
-    description: 'API key to validate',
-    example: 'sk-1234567890abcdef',
+    description: "API key to validate",
+    example: "sk-1234567890abcdef",
   })
   @IsString()
-  key: string;
+  key!: string;
 }
 
 export class ValidateApiKeyResponseDto {
   @ApiProperty({
-    description: 'Whether the API key is valid',
+    description: "Whether the API key is valid",
     example: true,
   })
-  isValid: boolean;
+  isValid!: boolean;
 
   @ApiPropertyOptional({
-    description: 'Error message if validation failed',
-    example: 'Invalid API key',
+    description: "Error message if validation failed",
+    example: "Invalid API key",
   })
   error?: string;
 
   @ApiPropertyOptional({
-    description: 'Provider-specific information',
+    description: "Provider-specific information",
     example: {
-      model: 'gpt-3.5-turbo',
-      organization: 'org-123',
+      model: "gpt-3.5-turbo",
+      organization: "org-123",
     },
   })
   providerInfo?: any;

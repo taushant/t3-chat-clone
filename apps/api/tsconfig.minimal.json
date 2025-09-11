@@ -16,7 +16,7 @@
   },
   "include": [
     "src/main.ts",
-    "src/app.module.ts", 
+    "src/app.module.ts",
     "src/app.controller.ts",
     "src/config/config.service.ts",
     "src/health/health.controller.ts",
@@ -26,7 +26,8 @@
     "src/users/**/*.ts",
     "src/chats/**/*.ts",
     "src/messages/**/*.ts",
-    "src/websocket/**/*.ts"
+    "src/websocket/**/*.ts",
+    "src/llm/**/*.ts"
   ],
   "exclude": ["node_modules", "dist", "test"]
 }
