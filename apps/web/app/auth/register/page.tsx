@@ -1,64 +1,78 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { isValidEmail, isValidPassword, getErrorMessage } from '@t3-chat/utils';
-import { apiClient } from '@/lib/api-client';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { isValidEmail, isValidPassword, getErrorMessage } from "@t3-chat/utils";
+import { apiClient } from "@/lib/api-client";
 
-export default function RegisterPage() {
+export default function RegisterPage(): JSX.Element {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    username: '',
-    firstName: '',
-    lastName: '',
+    email: "",
+    password: "",
+    confirmPassword: "",
+    username: "",
+    firstName: "",
+    lastName: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     // Validation
-    if (!formData.email || !formData.password || !formData.username || !formData.firstName || !formData.lastName) {
-      setError('Please fill in all fields');
+    if (
+      !formData.email ||
+      !formData.password ||
+      !formData.username ||
+      !formData.firstName ||
+      !formData.lastName
+    ) {
+      setError("Please fill in all fields");
       return;
     }
 
     if (!isValidEmail(formData.email)) {
-      setError('Please enter a valid email address');
+      setError("Please enter a valid email address");
       return;
     }
 
     if (!isValidPassword(formData.password)) {
-      setError('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number');
+      setError(
+        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character (@$!%*?&)",
+      );
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError("Passwords do not match");
       return;
     }
 
     setIsLoading(true);
 
     try {
-      await apiClient.post('/auth/register', {
+      await apiClient.post("/auth/register", {
         email: formData.email,
         password: formData.password,
         username: formData.username,
@@ -67,7 +81,9 @@ export default function RegisterPage() {
       });
 
       // Registration successful, redirect to login
-      router.push('/auth/login?message=Registration successful. Please sign in.');
+      router.push(
+        "/auth/login?message=Registration successful. Please sign in.",
+      );
     } catch (error) {
       setError(getErrorMessage(error));
     } finally {
@@ -102,7 +118,10 @@ export default function RegisterPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="firstName"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     First Name
                   </label>
                   <Input
@@ -118,7 +137,10 @@ export default function RegisterPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="lastName"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     Last Name
                   </label>
                   <Input
@@ -135,7 +157,10 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Username
                 </label>
                 <Input
@@ -151,7 +176,10 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Email
                 </label>
                 <Input
@@ -167,7 +195,10 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Password
                 </label>
                 <Input
@@ -183,7 +214,10 @@ export default function RegisterPage() {
               </div>
 
               <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="confirmPassword"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Confirm Password
                 </label>
                 <Input
@@ -198,12 +232,8 @@ export default function RegisterPage() {
                 />
               </div>
 
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Creating account...' : 'Create Account'}
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? "Creating account..." : "Create Account"}
               </Button>
             </form>
 
