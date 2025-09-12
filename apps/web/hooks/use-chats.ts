@@ -2,10 +2,22 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Chat, CreateChatRequest } from '@t3-chat/types';
 import { apiClient } from '@/lib/api-client';
 
-export function useChats() {
+interface ChatResponse {
+  data: Chat[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+  };
+}
+
+export function useChats(): ReturnType<typeof useQuery<Chat[]>> {
   return useQuery({
     queryKey: ['chats'],
-    queryFn: () => apiClient.get<Chat[]>('/chats'),
+    queryFn: async (): Promise<Chat[]> => {
+      const response = await apiClient.get<ChatResponse>('/chats/my');
+      return response.data || [];
+    },
   });
 }
 

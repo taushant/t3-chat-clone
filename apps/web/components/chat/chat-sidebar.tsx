@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Plus, Search, MessageSquare, Users, Settings } from 'lucide-react';
 import { Chat } from '@t3-chat/types';
 import { formatDate, truncateText } from '@t3-chat/utils';
@@ -55,7 +55,7 @@ export function ChatSidebar({
 
       {/* Chat List */}
       <div className="flex-1 overflow-y-auto">
-        {chats.length === 0 ? (
+        {!Array.isArray(chats) || chats.length === 0 ? (
           <div className="p-4 text-center text-gray-500">
             <MessageSquare className="h-12 w-12 mx-auto mb-4 text-gray-300" />
             <p className="text-sm">No chats yet</p>

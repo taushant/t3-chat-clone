@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { ChatSidebar } from '@/components/chat/chat-sidebar';
@@ -30,6 +30,9 @@ export default function ChatPage() {
 
   // Data fetching
   const { data: chats = [], isLoading: chatsLoading } = useChats();
+  
+  // Ensure chats is always an array
+  const safeChats = useMemo(() => Array.isArray(chats) ? chats : [], [chats]);
   const { data: messages = [], isLoading: messagesLoading } = useMessages(currentChat?.id || '');
   const createChatMutation = useCreateChat();
   const createMessageMutation = useCreateMessage();
@@ -98,10 +101,10 @@ export default function ChatPage() {
 
   // Select first chat if available
   useEffect(() => {
-    if (chats.length > 0 && !currentChat) {
-      setCurrentChat(chats[0]);
+    if (safeChats.length > 0 && !currentChat) {
+      setCurrentChat(safeChats[0]);
     }
-  }, [chats, currentChat]);
+  }, [safeChats, currentChat]);
 
   // Join/leave chat room when chat changes
   useEffect(() => {
@@ -117,7 +120,7 @@ export default function ChatPage() {
   }, [currentChat]);
 
   const handleChatSelect = (chatId: string) => {
-    const chat = chats.find(c => c.id === chatId);
+    const chat = safeChats.find(c => c.id === chatId);
     if (chat) {
       setCurrentChat(chat);
     }
@@ -190,7 +193,7 @@ export default function ChatPage() {
     <div className="h-screen flex bg-gray-50">
       {/* Sidebar */}
       <ChatSidebar
-        chats={chats}
+        chats={safeChats}
         currentChatId={currentChat?.id}
         onChatSelect={handleChatSelect}
         onCreateChat={handleCreateChat}
