@@ -5,6 +5,7 @@ import { AnthropicProvider } from '../providers/anthropic.provider';
 import { OpenRouterProvider } from '../providers/openrouter.provider';
 import { getProviderConfig } from '../config/provider.config';
 import { LLMProvider } from '../interfaces/llm-provider.interface';
+import { ConfigService } from '../../config/config.service';
 
 /**
  * Factory service for creating and registering LLM providers
@@ -13,7 +14,10 @@ import { LLMProvider } from '../interfaces/llm-provider.interface';
 export class ProviderFactoryService {
   private readonly logger = new Logger(ProviderFactoryService.name);
 
-  constructor(private readonly providerRegistry: ProviderRegistryService) {}
+  constructor(
+    private readonly providerRegistry: ProviderRegistryService,
+    private readonly configService: ConfigService
+  ) {}
 
   /**
    * Initialize all providers
@@ -44,7 +48,7 @@ export class ProviderFactoryService {
   private async initializeOpenAIProvider(): Promise<void> {
     try {
       const config = getProviderConfig('openai');
-      const provider = new OpenAIProvider(config);
+      const provider = new OpenAIProvider(config, this.configService);
       
       this.providerRegistry.registerProvider(provider);
       this.logger.log('OpenAI provider initialized');
@@ -60,7 +64,7 @@ export class ProviderFactoryService {
   private async initializeAnthropicProvider(): Promise<void> {
     try {
       const config = getProviderConfig('anthropic');
-      const provider = new AnthropicProvider(config);
+      const provider = new AnthropicProvider(config, this.configService);
       
       this.providerRegistry.registerProvider(provider);
       this.logger.log('Anthropic provider initialized');
@@ -76,7 +80,7 @@ export class ProviderFactoryService {
   private async initializeOpenRouterProvider(): Promise<void> {
     try {
       const config = getProviderConfig('openrouter');
-      const provider = new OpenRouterProvider(config);
+      const provider = new OpenRouterProvider(config, this.configService);
       
       this.providerRegistry.registerProvider(provider);
       this.logger.log('OpenRouter provider initialized');
@@ -96,11 +100,11 @@ export class ProviderFactoryService {
 
     switch (providerName.toLowerCase()) {
       case 'openai':
-        return new OpenAIProvider(config);
+        return new OpenAIProvider(config, this.configService);
       case 'anthropic':
-        return new AnthropicProvider(config);
+        return new AnthropicProvider(config, this.configService);
       case 'openrouter':
-        return new OpenRouterProvider(config);
+        return new OpenRouterProvider(config, this.configService);
       default:
         throw new Error(`Unknown provider: ${providerName}`);
     }

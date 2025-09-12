@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { OpenAIProvider } from './openai.provider';
 import { getProviderConfig } from '../config/provider.config';
 import { ChatCompletionRequest } from '../types/chat-completion.types';
+import { ConfigService } from '../../config/config.service';
 
 // Mock OpenAI
 jest.mock('openai', () => {
@@ -23,10 +24,16 @@ jest.mock('openai', () => {
 describe('OpenAIProvider', () => {
   let provider: OpenAIProvider;
   let mockOpenAI: any;
+  let mockConfigService: jest.Mocked<ConfigService>;
 
   beforeEach(async () => {
+    // Create mock ConfigService
+    mockConfigService = {
+      openaiApiKey: 'test-api-key',
+    } as jest.Mocked<ConfigService>;
+
     const config = getProviderConfig('openai');
-    provider = new OpenAIProvider(config);
+    provider = new OpenAIProvider(config, mockConfigService);
     
     // Get the mocked OpenAI instance
     mockOpenAI = (provider as any).client;

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import Anthropic from '@anthropic-ai/sdk';
 import { BaseLLMProvider } from './base-provider';
 import { LLMProviderConfig } from '../interfaces/llm-provider.interface';
+import { ConfigService } from '../../config/config.service';
 import { 
   ChatCompletionRequest, 
   ChatCompletionChunk, 
@@ -18,7 +19,7 @@ export class AnthropicProvider extends BaseLLMProvider {
   private client!: Anthropic;
   public readonly name = 'anthropic';
 
-  constructor(config: LLMProviderConfig) {
+  constructor(config: LLMProviderConfig, private readonly configService: ConfigService) {
     const rateLimits: RateLimitConfig = {
       requestsPerMinute: 1000,  // Anthropic's default rate limit
       tokensPerMinute: 40000,   // Anthropic's default token limit
@@ -34,7 +35,14 @@ export class AnthropicProvider extends BaseLLMProvider {
    * Initialize Anthropic client
    */
   private initializeClient(): void {
+    const apiKey = this.configService.anthropicApiKey;
+    
+    if (!apiKey || apiKey === 'your-anthropic-api-key') {
+      throw new Error('Anthropic API key not configured. Please set ANTHROPIC_API_KEY environment variable.');
+    }
+
     this.client = new Anthropic({
+      apiKey: apiKey,
       baseURL: this.config.baseUrl,
       timeout: this.config.timeout,
       maxRetries: this.config.maxRetries,

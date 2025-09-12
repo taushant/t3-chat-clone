@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import OpenAI from 'openai';
 import { BaseLLMProvider } from './base-provider';
 import { LLMProviderConfig } from '../interfaces/llm-provider.interface';
+import { ConfigService } from '../../config/config.service';
 import { 
   ChatCompletionRequest, 
   ChatCompletionChunk, 
@@ -18,7 +19,7 @@ export class OpenAIProvider extends BaseLLMProvider {
   private client!: OpenAI;
   public readonly name = 'openai';
 
-  constructor(config: LLMProviderConfig) {
+  constructor(config: LLMProviderConfig, private readonly configService: ConfigService) {
     const rateLimits: RateLimitConfig = {
       requestsPerMinute: 3500, // OpenAI's default rate limit
       tokensPerMinute: 90000,  // OpenAI's default token limit
@@ -34,7 +35,14 @@ export class OpenAIProvider extends BaseLLMProvider {
    * Initialize OpenAI client
    */
   private initializeClient(): void {
+    const apiKey = this.configService.openaiApiKey;
+    
+    if (!apiKey || apiKey === 'your-openai-api-key') {
+      throw new Error('OpenAI API key not configured. Please set OPENAI_API_KEY environment variable.');
+    }
+
     this.client = new OpenAI({
+      apiKey: apiKey,
       baseURL: this.config.baseUrl,
       timeout: this.config.timeout,
       maxRetries: this.config.maxRetries,

@@ -1,6 +1,8 @@
 import { Module, OnModuleInit } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
+import { ConfigModule } from "@nestjs/config";
 import { DatabaseModule } from "../database/database.module";
+import { ConfigService } from "../config/config.service";
 import { ProviderRegistryService } from "./services/provider-registry.service";
 import { ProviderFactoryService } from "./services/provider-factory.service";
 import { LLMRateLimitService } from "./services/rate-limit.service";
@@ -34,7 +36,7 @@ import { PerformanceMonitorController } from "./controllers/performance-monitor.
  * Provides LLM provider abstraction and management
  */
 @Module({
-  imports: [DatabaseModule, JwtModule],
+  imports: [DatabaseModule, JwtModule, ConfigModule],
   controllers: [
     ChatCompletionController,
     ApiKeyController,
@@ -45,6 +47,7 @@ import { PerformanceMonitorController } from "./controllers/performance-monitor.
     PerformanceMonitorController,
   ],
   providers: [
+    ConfigService,
     ProviderRegistryService,
     ProviderFactoryService,
     LLMRateLimitService,
