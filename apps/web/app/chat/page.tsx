@@ -128,9 +128,10 @@ export default function ChatPage() {
 
   const handleCreateChat = async () => {
     try {
+      const timestamp = new Date().toLocaleString();
       const newChat = await createChatMutation.mutateAsync({
-        title: 'New Chat',
-        description: 'A new conversation',
+        title: `AI Chat - ${timestamp}`,
+        description: 'Chat with AI Assistant (GPT-4)',
         isPublic: false,
       });
       
@@ -145,11 +146,57 @@ export default function ChatPage() {
     if (!currentChat) return;
 
     try {
+      // Send user message
       await createMessageMutation.mutateAsync({
         content,
-        type,
+        type: type as 'TEXT' | 'IMAGE' | 'FILE',
         chatId: currentChat.id,
       });
+
+      // If this is an AI chat (based on title), generate AI response
+      if (currentChat.title?.includes('AI Chat')) {
+        // Simulate AI thinking delay
+        setTimeout(async () => {
+          try {
+            // Generate AI response using the LLM service
+            const aiResponse = await apiClient.post('/llm/chat/completion', {
+              messages: [
+                {
+                  role: 'user',
+                  content: content,
+                }
+              ],
+              model: 'gpt-4',
+              provider: 'openai',
+              stream: false,
+            });
+
+            // Send AI response as a message
+            await createMessageMutation.mutateAsync({
+              content: aiResponse.choices?.[0]?.message?.content || 'I\'m sorry, I couldn\'t generate a response.',
+              type: 'TEXT',
+              chatId: currentChat.id,
+              metadata: {
+                isAI: true,
+                model: 'gpt-4',
+                provider: 'openai'
+              }
+            });
+          } catch (aiError) {
+            console.error('AI response error:', aiError);
+            // Send fallback message
+            await createMessageMutation.mutateAsync({
+              content: 'I\'m experiencing some technical difficulties. Please try again later.',
+              type: 'TEXT',
+              chatId: currentChat.id,
+              metadata: {
+                isAI: true,
+                error: true
+              }
+            });
+          }
+        }, 1000);
+      }
     } catch (error) {
       setError('Failed to send message');
       console.error('Error sending message:', error);

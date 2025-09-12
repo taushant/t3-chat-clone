@@ -33,6 +33,11 @@ export function ChatHeader({
   };
 
   const getParticipantNames = () => {
+    // If this is an AI chat, show AI model info
+    if (chat.title?.includes('AI Chat')) {
+      return 'AI Assistant (GPT-4)';
+    }
+
     const otherParticipants = chat.participants
       .filter(p => p.userId !== currentUser.id)
       .map(p => `${p.user.firstName} ${p.user.lastName}`)

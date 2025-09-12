@@ -22,6 +22,9 @@ export function MessageBubble({ message, isOwn, onRead }: MessageBubbleProps) {
   };
 
   const status = getMessageStatus();
+  const isAI = message.metadata?.isAI === true;
+  const aiModel = message.metadata?.model;
+  const hasError = message.metadata?.error === true;
 
   const renderMessageContent = () => {
     switch (message.type) {
@@ -104,12 +107,24 @@ export function MessageBubble({ message, isOwn, onRead }: MessageBubbleProps) {
         isOwn ? 'ml-auto' : 'mr-auto'
       )}
     >
+      {/* AI Model Badge */}
+      {isAI && (
+        <div className="flex items-center justify-start mb-1">
+          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+            🤖 {aiModel || 'AI'} {hasError && '⚠️'}
+          </span>
+        </div>
+      )}
       <div
         className={cn(
           'rounded-2xl px-4 py-2 shadow-sm',
           isOwn
             ? 'bg-blue-500 text-white'
-            : 'bg-gray-100 text-gray-900'
+            : isAI
+              ? hasError 
+                ? 'bg-red-50 text-red-900 border border-red-200'
+                : 'bg-gradient-to-r from-blue-50 to-purple-50 text-gray-900 border border-blue-200'
+              : 'bg-gray-100 text-gray-900'
         )}
       >
         {renderMessageContent()}
