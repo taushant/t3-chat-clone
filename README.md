@@ -388,6 +388,72 @@ pnpm --filter attachment-worker dev
 
 **Next Milestone**: Phase 4 - File Processing & Advanced Features
 
+## 🤖 LLM Integration & API Key Configuration
+
+### Global API Key System (Current Implementation)
+
+The T3 Chat Clone uses a **global API key system** for LLM providers. All users share the same API keys configured at the system level.
+
+#### Required Environment Variables
+
+Add these to your `apps/api/.env` file:
+
+```bash
+# LLM Provider API Keys (Required for AI chat functionality)
+OPENAI_API_KEY="your-openai-api-key"
+ANTHROPIC_API_KEY="your-anthropic-api-key"  
+OPENROUTER_API_KEY="your-openrouter-api-key"
+```
+
+#### Supported Providers
+
+- **OpenAI**: GPT-4, GPT-3.5-turbo, GPT-4-turbo
+- **Anthropic**: Claude 3.5 Sonnet, Claude 3 Haiku, Claude 3 Opus
+- **OpenRouter**: 100+ models including free options (Llama, Mistral, etc.)
+
+#### Getting API Keys
+
+1. **OpenAI**: https://platform.openai.com/api-keys
+   - Cost: ~$0.03-0.06 per conversation
+   - Recommended for best quality
+
+2. **Anthropic**: https://console.anthropic.com/
+   - Cost: ~$0.15-0.75 per 1K tokens  
+   - Excellent for reasoning tasks
+
+3. **OpenRouter**: https://openrouter.ai/keys  
+   - Cost: Variable (includes free models)
+   - Access to multiple providers through one API
+
+#### Configuration Priority
+
+1. Set **at least one** API key to enable AI chat functionality
+2. **OpenAI** is used as the default provider for new chats
+3. Users can select different models through the chat interface
+4. Missing API keys will show clear error messages
+
+### Future Enhancement: Hybrid Approach (Planned)
+
+The system is designed to support a **hybrid approach** in the future:
+
+- **Global API keys** (current): Shared across all users, managed by system admin
+- **User API keys** (planned): Users can bring their own keys for specific models
+- **Quota management**: Per-user usage limits and billing integration
+- **Model selection**: User preference for default models and providers
+
+This design allows for:
+- **Free tier**: Users use global keys with usage limits
+- **Pro tier**: Users bring their own keys for unlimited usage
+- **Enterprise**: Custom API keys and dedicated resources
+
+### Testing Without API Keys
+
+For development and testing without real API keys, you can:
+
+1. **Mock mode**: Set `LLM_MOCK_MODE=true` in `.env` for fake responses
+2. **OpenRouter free models**: Use free models with OpenRouter API key
+3. **Local LLM**: Set up Ollama for local model inference (advanced)
+
 ### Security Features Implemented
 
 - ✅ **JWT Authentication** with proper token validation
