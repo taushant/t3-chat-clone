@@ -1,12 +1,55 @@
+# Environment files - NEVER commit these
 *.env
+.env
+.env.*
+!.env.example
+!.env.template
 .env.local
 .env.*.local
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.template
+
+# Backup files that might contain secrets
+*.env.backup*
+**/*.env.backup*
+.env.backup*
+
+# Private keys and certificates
+*.key
+*.pem
+*.p12
+*.pfx
+*.keystore
+*.jks
+*.cert
+*.crt
+**/*.key
+**/*.pem
+
+# Node modules and build artifacts
 node_modules
 dist
 build
+
+# IDE and system files
 .vscode
 .DS_Store
+.idea
+*.swp
+*.swo
+*~
+
+# Next.js
 **/.next
+.next
+
+# Coverage and logs
 **/coverage
 **/*.log
+*.log
+
+# TypeScript build info
 **/tsconfig.tsbuildinfo
+*.tsbuildinfo
