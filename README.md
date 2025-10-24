@@ -1,5 +1,7 @@
 # T3 Chat Clone — README
 
+> **⚠️ Important Notice (Oct 23, 2025):** If you're experiencing issues with the backend server not starting, please see [STARTUP_FIX_SUMMARY.md](./STARTUP_FIX_SUMMARY.md) for the resolution.
+
 ## 🚀 Purpose
 
 This repository is our attempt to build a **T3 Chat clone** as part of the [T3 Chat Cloneathon](https://cloneathon.t3.chat/) challenge. The project is not just about replicating functionality — it's also about learning and applying a **modern JS-first SaaS tech stack** that can scale for real-world use.
@@ -401,7 +403,7 @@ Add these to your `apps/api/.env` file:
 ```bash
 # LLM Provider API Keys (Required for AI chat functionality)
 OPENAI_API_KEY="your-openai-api-key"
-ANTHROPIC_API_KEY="your-anthropic-api-key"  
+ANTHROPIC_API_KEY="your-anthropic-api-key"
 OPENROUTER_API_KEY="your-openrouter-api-key"
 ```
 
@@ -418,10 +420,10 @@ OPENROUTER_API_KEY="your-openrouter-api-key"
    - Recommended for best quality
 
 2. **Anthropic**: https://console.anthropic.com/
-   - Cost: ~$0.15-0.75 per 1K tokens  
+   - Cost: ~$0.15-0.75 per 1K tokens
    - Excellent for reasoning tasks
 
-3. **OpenRouter**: https://openrouter.ai/keys  
+3. **OpenRouter**: https://openrouter.ai/keys
    - Cost: Variable (includes free models)
    - Access to multiple providers through one API
 
@@ -442,6 +444,7 @@ The system is designed to support a **hybrid approach** in the future:
 - **Model selection**: User preference for default models and providers
 
 This design allows for:
+
 - **Free tier**: Users use global keys with usage limits
 - **Pro tier**: Users bring their own keys for unlimited usage
 - **Enterprise**: Custom API keys and dedicated resources
